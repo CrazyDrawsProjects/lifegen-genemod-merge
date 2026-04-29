@@ -4,20 +4,21 @@ from .Screens import Screens
 
 from scripts.cat.cats import Cat
 from scripts.game_structure import image_cache
-from scripts.game_structure import game
-from ..ui.elements.surface_image_button import UISurfaceImageButton
-from ..ui.elements.sprite_button import UISpriteButton
-from scripts.ui.theme import get_text_box_theme
-from scripts.ui.scale import ui_scale, ui_scale_dimensions
-
-from scripts.screens.enums import GameScreen
-from ..cat.enums import CatRank
-
+from scripts.game_structure.game_essentials import game
+from scripts.game_structure.ui_elements import (
+    UISpriteButton,
+    UISurfaceImageButton,
+)
+from scripts.utility import (
+    get_text_box_theme,
+    ui_scale,
+    ui_scale_dimensions
+)
 from ..game_structure.screen_settings import MANAGER
 from ..ui.generate_box import get_box, BoxStyles
 from ..ui.generate_button import get_button_dict, ButtonStyles
+from ..ui.get_arrow import get_arrow
 from ..ui.icon import Icon
-from scripts.clan_package.settings import get_clan_setting
 
 
 
@@ -32,11 +33,15 @@ class DeputyScreen(Screens):
         super().__init__(name)
         self.fav = {}
         self.list_page = None
+        self.next_cat = None
+        self.previous_cat = None
         self.next_page_button = None
         self.previous_page_button = None
         self.current_mentor_warning = None
         self.confirm_mentor = None
         self.back_button = None
+        self.next_cat_button = None
+        self.previous_cat_button = None
         self.mentor_icon = None
         self.app_frame = None
         self.mentor_frame = None
@@ -56,10 +61,26 @@ class DeputyScreen(Screens):
                 if not self.selected_cat.dead:
                     self.update_selected_cat()
 
-                    self.change_cat()
+                    self.change_cat(self.selected_cat)
                     # self.update_buttons()
             elif event.ui_element == self.back_button:
-                self.change_screen(GameScreen.EVENTS)
+                self.change_screen('events screen')
+            elif event.ui_element == self.next_cat_button:
+                if isinstance(Cat.fetch_cat(self.next_cat), Cat):
+                    game.switches['cat'] = self.next_cat
+                    self.update_cat_list()
+                    self.update_selected_cat()
+                    # self.update_buttons()
+                else:
+                    print("invalid next cat", self.next_cat)
+            elif event.ui_element == self.previous_cat_button:
+                if isinstance(Cat.fetch_cat(self.previous_cat), Cat):
+                    game.switches['cat'] = self.previous_cat
+                    self.update_cat_list()
+                    self.update_selected_cat()
+                    # self.update_buttons()
+                else:
+                    print("invalid previous cat", self.previous_cat)
             elif event.ui_element == self.next_page_button:
                 self.current_page += 1
                 self.update_cat_list()
@@ -89,7 +110,7 @@ class DeputyScreen(Screens):
 
         self.back_button = UISurfaceImageButton(
             ui_scale(pygame.Rect((25, 60), (105, 30))),
-            "buttons.back",
+            get_arrow(2) + " Back",
             get_button_dict(ButtonStyles.SQUOVAL, (105, 30)),
             object_id="@buttonstyles_squoval",
             manager=MANAGER,
@@ -157,13 +178,50 @@ class DeputyScreen(Screens):
         self.next_page_button.kill()
         del self.next_page_button
 
-    def change_cat(self):
-        # game.cur_events_list.clear()
-        if game.clan.deputy:
-            game.clan.deputy.rank_change(CatRank.WARRIOR)
-        game.clan.new_deputy(self.selected_cat)
-        self.change_screen(GameScreen.EVENTS)
 
+    def find_next_previous_cats(self):
+        """Determines where the previous and next buttons lead"""
+        is_instructor = False
+        if self.the_cat.dead and game.clan.instructor.ID == self.the_cat.ID:
+            is_instructor = True
+
+        self.previous_cat = 0
+        self.next_cat = 0
+        if self.the_cat.dead and not is_instructor and not self.the_cat.df:
+            self.previous_cat = game.clan.instructor.ID
+
+        if is_instructor:
+            self.next_cat = 1
+
+        for check_cat in Cat.all_cats_list:
+            if check_cat.ID == self.the_cat.ID:
+                self.next_cat = 1
+
+            if self.next_cat == 0 and check_cat.ID != self.the_cat.ID and check_cat.dead == self.the_cat.dead and \
+                    check_cat.ID != game.clan.instructor.ID and not check_cat.exiled and check_cat.status in \
+                    ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"] \
+                    and check_cat.df == self.the_cat.df:
+                self.previous_cat = check_cat.ID
+
+            elif self.next_cat == 1 and check_cat.ID != self.the_cat.ID and check_cat.dead == self.the_cat.dead and \
+                    check_cat.ID != game.clan.instructor.ID and not check_cat.exiled and check_cat.status in \
+                    ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"] \
+                    and check_cat.df == self.the_cat.df:
+                self.next_cat = check_cat.ID
+
+            elif int(self.next_cat) > 1:
+                break
+
+        if self.next_cat == 1:
+            self.next_cat = 0
+
+    def change_cat(self, new_mentor=None):
+        self.exit_screen()
+        game.cur_events_list.clear()
+        if game.clan.deputy:
+            game.clan.deputy.status_change('warrior')
+        new_mentor.status_change('deputy')
+        game.switches['cur_screen'] = "events screen"
 
     def update_selected_cat(self):
         """Updates the image and information on the currently selected mentor"""
@@ -180,7 +238,7 @@ class DeputyScreen(Screens):
                     manager=MANAGER,
                 )
 
-            info = self.selected_cat.status.rank + "\n" + \
+            info = self.selected_cat.status + "\n" + \
                    self.selected_cat.genderalign + "\n" + self.selected_cat.personality.trait + "\n" + \
                    self.selected_cat.skills.skill_string(short=True)
 
@@ -234,13 +292,13 @@ class DeputyScreen(Screens):
         pos_y = 20
         i = 0
         for cat in display_cats:
-            if get_clan_setting("show fav") and cat.favourite != 0:
+            if game.clan.clan_settings["show fav"] and cat.favourite != 0:
                 self.fav[str(i)] = pygame_gui.elements.UIImage(
                     ui_scale(pygame.Rect((100 + pos_x, 365 + pos_y), (50, 50))),
                     pygame.transform.scale(
                         pygame.image.load(
                             f"resources/images/fav_marker_{cat.favourite}.png").convert_alpha(),
-                        (50, 50))
+                        (100, 100))
                 )
                 self.fav[str(i)].disable()
             self.cat_list_buttons["cat" + str(i)] = UISpriteButton(
@@ -256,7 +314,7 @@ class DeputyScreen(Screens):
         valid_mentors = []
 
         for cat in Cat.all_cats_list:
-            if cat.status.alive_in_player_clan and cat.status.rank == CatRank.WARRIOR:
+            if not cat.dead and not cat.outside and cat.status == "warrior":
                 valid_mentors.append(cat)
         
         return valid_mentors

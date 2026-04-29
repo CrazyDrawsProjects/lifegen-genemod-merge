@@ -1,35 +1,25 @@
 import pygame.transform
 import pygame_gui.elements
 from random import choice, randint
+import ujson
 import math
 import re
+from scripts.cat.history import History
 from scripts.event_class import Single_Event
-from scripts.game_structure import constants
-
-from scripts.screens.enums import GameScreen
-from scripts.cat.enums import CatRank
-from scripts.game_structure.localization import load_lang_resource
 
 from .Screens import Screens
-
-from scripts.ui.theme import get_text_box_theme
-from scripts.ui.scale import ui_scale, ui_scale_dimensions
-from ..events_module.text_adjust import pronoun_repl, process_text
-
-
+from scripts.utility import get_text_box_theme, process_text, pronoun_repl, ui_scale_dimensions
 from scripts.cat.cats import Cat, INJURIES
 from scripts.game_structure import image_cache
-from ..ui.elements.image_button import UIImageButton
-from ..ui.elements.surface_image_button import UISurfaceImageButton
-from ..ui.elements.sprite_button import UISpriteButton
-from scripts.game_structure import game
+from scripts.game_structure.ui_elements import UIImageButton, UISpriteButton, UISurfaceImageButton
+from scripts.game_structure.game_essentials import game
 from scripts.cat.skills import SkillPath
 from ..ui.generate_box import BoxStyles, get_box
+from scripts.utility import ui_scale
 from scripts.game_structure.screen_settings import MANAGER
 from ..ui.generate_button import get_button_dict, ButtonStyles
+from ..ui.get_arrow import get_arrow
 from ..ui.icon import Icon
-from ..game_structure.game.switches import switch_set_value, Switch, switch_append_list_value
-
 
 
 class MurderScreen(Screens):
@@ -167,25 +157,29 @@ class MurderScreen(Screens):
                 r = randint(1,100)
                 accompliced = False
                 chance = self.get_accomplice_chance(game.clan.your_cat, self.selected_cat, self.cat_to_murder)
-                if constants.CONFIG["lifegen"]["gen"]["accomplice_chance"] != -1:
+                if game.config["accomplice_chance"] != -1:
                     try:
-                        chance = constants.CONFIG["lifegen"]["gen"]["accomplice_chance"]
+                        chance = game.config["accomplice_chance"]
                     except:
                         pass
                 if r < chance:
                     accompliced = True
-                    switch_append_list_value(Switch.accomplices, self.selected_cat.ID)
+                    if 'accomplices' in game.switches:
+                        game.switches['accomplices'].append(self.selected_cat.ID)
+                    else:
+                        game.switches['accomplices'] = []
+                        game.switches['accomplices'].append(self.selected_cat.ID)
                                             
-                self.stage = 'choose murder cat'
                 self.change_cat(self.murder_cat, self.selected_cat, accompliced)
+                self.stage = 'choose murder cat'
 
             elif self.stage == 'choose murder method' and event.ui_element == self.next:
-                self.stage = 'choose murder cat'
                 self.change_cat(self.murder_cat, None, None)
+                self.stage = 'choose murder cat'
             
             elif self.stage == 'choose accomplice' and event.ui_element == self.next:
-                self.stage = 'choose murder cat'
                 self.change_cat(self.murder_cat, None, None)
+                self.stage = 'choose murder cat'
             
             elif event.ui_element == self.prev:
                 if self.stage == "choose murder method":
@@ -201,7 +195,7 @@ class MurderScreen(Screens):
                     self.screen_switches()
 
             elif event.ui_element == self.back_button:
-                self.change_screen(GameScreen.PROFILE)
+                self.change_screen('profile screen')
                 self.stage = 'choose murder cat'
 
                 # reset cats
@@ -300,7 +294,7 @@ class MurderScreen(Screens):
 
             elif event.ui_element == self.next_cat_button:
                 if isinstance(Cat.fetch_cat(self.next_cat), Cat):
-                    switch_set_value(Switch.cat, self.next_cat)
+                    game.switches['cat'] = self.next_cat
                     self.update_cat_list()
                     self.update_selected_cat()
                     self.print_chances(self.selected_cat, accomplice=None)
@@ -374,25 +368,24 @@ class MurderScreen(Screens):
     def screen_switches(self):
         super().screen_switches()
 
-        self.heading = None
-        self.next = None
-        self.prev = None
-        self.methodheading = None
-        self.methodinfo = None
-        self.locationinfo = None
-        self.timeinfo = None
-        self.timeheading = None
-        self.locationheading = None
-        self.accomplice_frame = None
-        self.victim_sprite = None
-        self.victim_info = None
-        self.victim_name = None
-        self.randomiser_button = None
-        self.chancetext = None
-        self.willingnesstext = None
         if self.stage == 'choose murder cat':
             self.the_cat = game.clan.your_cat
             
+            self.next = None
+            self.prev = None
+            self.methodheading = None
+            self.methodinfo = None
+            self.locationinfo = None
+            self.timeinfo = None
+            self.timeheading = None
+            self.locationheading = None
+            self.accomplice_frame = None
+            self.victim_sprite = None
+            self.victim_info = None
+            self.victim_name = None
+            self.randomiser_button = None
+            self.chancetext = None
+            self.willingnesstext = None
 
             list_frame = get_box(BoxStyles.ROUNDED_BOX, (650, 226))
             self.list_frame = pygame_gui.elements.UIImage(
@@ -505,8 +498,8 @@ class MurderScreen(Screens):
                                                                 (110,110)), manager=MANAGER)
             
             self.back_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((25, 60), (105, 30))),
-                "buttons.back",
+                ui_scale(pygame.Rect((25, 25), (105, 30))),
+                get_arrow(2) + " Back",
                 get_button_dict(ButtonStyles.SQUOVAL, (105, 30)),
                 object_id="@buttonstyles_squoval",
                 manager=MANAGER,
@@ -663,8 +656,8 @@ class MurderScreen(Screens):
             )
             
             self.back_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((25, 60), (105, 30))),
-                "buttons.back",
+                ui_scale(pygame.Rect((25, 25), (105, 30))),
+                get_arrow(2) + " Back",
                 get_button_dict(ButtonStyles.SQUOVAL, (105, 30)),
                 object_id="@buttonstyles_squoval",
                 manager=MANAGER,
@@ -796,7 +789,7 @@ class MurderScreen(Screens):
                     manager=MANAGER,
                 )
             
-            info = self.cat_to_murder.status.rank + "\n" + \
+            info = self.cat_to_murder.status + "\n" + \
                    self.cat_to_murder.genderalign + "\n" + self.cat_to_murder.personality.trait + "\n"
 
             if self.cat_to_murder.moons < 1:
@@ -824,8 +817,8 @@ class MurderScreen(Screens):
                 object_id="#text_box_34_horizcenter", manager=MANAGER)
 
             self.back_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((25, 60), (105, 30))),
-                "buttons.back",
+                ui_scale(pygame.Rect((25, 25), (105, 30))),
+                get_arrow(2) + " Back",
                 get_button_dict(ButtonStyles.SQUOVAL, (105, 30)),
                 object_id="@buttonstyles_squoval",
                 manager=MANAGER,
@@ -1044,6 +1037,42 @@ class MurderScreen(Screens):
             self.prev.kill()
             del self.prev
 
+    def find_next_previous_cats(self):
+        """Determines where the previous and next buttons lead"""
+        is_instructor = False
+        if self.the_cat.dead and game.clan.instructor.ID == self.the_cat.ID:
+            is_instructor = True
+
+        self.previous_cat = 0
+        self.next_cat = 0
+        if self.the_cat.dead and not is_instructor and not self.the_cat.df:
+            self.previous_cat = game.clan.instructor.ID
+
+        if is_instructor:
+            self.next_cat = 1
+
+        for check_cat in Cat.all_cats_list:
+            if check_cat.ID == self.the_cat.ID:
+                self.next_cat = 1
+
+            if self.next_cat == 0 and check_cat.ID != self.the_cat.ID and check_cat.dead == self.the_cat.dead and \
+                    check_cat.ID != game.clan.instructor.ID and not check_cat.exiled and check_cat.status in \
+                    ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"] \
+                    and check_cat.df == self.the_cat.df:
+                self.previous_cat = check_cat.ID
+
+            elif self.next_cat == 1 and check_cat.ID != self.the_cat.ID and check_cat.dead == self.the_cat.dead and \
+                    check_cat.ID != game.clan.instructor.ID and not check_cat.exiled and check_cat.status in \
+                    ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"] \
+                    and check_cat.df == self.the_cat.df:
+                self.next_cat = check_cat.ID
+
+            elif int(self.next_cat) > 1:
+                break
+
+        if self.next_cat == 1:
+            self.next_cat = 0
+
     def print_chances(self, cat_to_murder, accomplice):
         
         dont_print = True
@@ -1059,7 +1088,7 @@ class MurderScreen(Screens):
                 risk_chance = self.get_risk_chance(cat_to_murder, accomplice=accomplice, accompliced=False)
                 discover_chance = self.get_discover_chance(self.cat_to_murder, accomplice=accomplice, accompliced=False)
                 death_chance = self.get_death_chance(cat_to_murder, accomplice=accomplice, accompliced=None)
-                if cat_to_murder.status.rank == CatRank.LEADER:
+                if cat_to_murder.status == "leader":
                     leader_death_chance = self.leader_death_chance(cat_to_murder, accomplice=accomplice, accompliced=False)
 
                 hypothetical_agree = True
@@ -1068,7 +1097,7 @@ class MurderScreen(Screens):
                 hyprisk_chance = self.get_risk_chance(cat_to_murder, accomplice=accomplice, accompliced=True)
                 hypdiscover_chance = self.get_discover_chance(self.cat_to_murder, accomplice=accomplice, accompliced=True)
                 hypdeath_chance = self.get_death_chance(cat_to_murder, accomplice=accomplice, accompliced=True)
-                if cat_to_murder.status.rank == CatRank.LEADER:
+                if cat_to_murder.status == "leader":
                     hypleader_death_chance = self.leader_death_chance(cat_to_murder, accomplice=accomplice, accompliced=None)
 
                 if hypothetical_agree:
@@ -1082,7 +1111,7 @@ class MurderScreen(Screens):
                     print(F"MC Injury Chance: {hyprisk_chance}/100")
                     print(F"MC Death Chance: {hypdeath_chance}/100")
 
-                    if cat_to_murder.status.rank == CatRank.LEADER:
+                    if cat_to_murder.status == "leader":
                         print(F"LEADER ALL LIVES CHANCE: {hypleader_death_chance}/100")
 
             else:
@@ -1091,7 +1120,7 @@ class MurderScreen(Screens):
                 risk_chance = self.get_risk_chance(cat_to_murder, accomplice=None, accompliced=None)
                 discover_chance = self.get_discover_chance(cat_to_murder, accomplice=accomplice, accompliced=None)
                 death_chance = self.get_death_chance(cat_to_murder, accomplice=None, accompliced=None)
-                if cat_to_murder.status.rank == CatRank.LEADER:
+                if cat_to_murder.status == "leader":
                     leader_death_chance = self.leader_death_chance(cat_to_murder, accomplice=None, accompliced=None)
 
                 print("----------------------------")
@@ -1102,7 +1131,7 @@ class MurderScreen(Screens):
                 print(F"MC Injury Chance: {risk_chance}/100")
                 print(F"MC Death Chance: {death_chance}/100")
 
-                if cat_to_murder.status.rank == CatRank.LEADER:
+                if cat_to_murder.status == "leader":
                     print(F"LEADER ALL LIVES CHANCE: {leader_death_chance}/100")
 
                 print("----------------------------")
@@ -1113,14 +1142,15 @@ class MurderScreen(Screens):
                 print(F"MC Injury Chance: {risk_chance}/100")
                 print(F"MC Death Chance: {death_chance}/100")
 
-                if cat_to_murder.status.rank == CatRank.LEADER:
+                if cat_to_murder.status == "leader":
                     print(F"LEADER ALL LIVES CHANCE: {leader_death_chance}/100")
 
-            if cat_to_murder.status.rank == CatRank.LEADER:
+            if cat_to_murder.status == "leader":
                 print("Discovery chances will go up if the leader doesn't lose all of their lives.")
 
     def change_cat(self, new_mentor=None, accomplice=None, accompliced=None):
         self.current_page = 1
+        self.exit_screen()
         r = randint(0,100)
         r2 = randint(-10, 10)
 
@@ -1128,9 +1158,9 @@ class MurderScreen(Screens):
         risk_chance = self.get_risk_chance(self.cat_to_murder, accomplice=accomplice, accompliced=accompliced)
         discover_chance = self.get_discover_chance(self.cat_to_murder, accomplice=accomplice, accompliced=accompliced)
 
-        if constants.CONFIG["lifegen"]["gen"]["murder_chance"] != -1:
+        if game.config["murder_chance"] != -1:
             try:
-                chance = constants.CONFIG["lifegen"]["gen"]["murder_chance"]
+                chance = game.config["murder_chance"]
             except:
                 pass
         murdered = r < max(5, chance + r2)
@@ -1153,11 +1183,11 @@ class MurderScreen(Screens):
             }
         self.selected_cat = None
 
+        game.switches['cur_screen'] = "events screen"
+
         # reset cats
         self.selected_cat = None
         self.cat_to_murder = None
-
-        self.change_screen(GameScreen.EVENTS)
     
     RESOURCE_DIR = "resources/dicts/events/lifegen_events/"
 
@@ -1170,7 +1200,7 @@ class MurderScreen(Screens):
         if self.method == "attack":
             chance += 5
         elif self.method == "poison":
-            if you.status.rank not in [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE]:
+            if you.status not in ["medicine cat", "medicine cat apprentice"]:
                 chance += 1
         elif self.method == "accident":
             chance += 8
@@ -1230,7 +1260,7 @@ class MurderScreen(Screens):
             chance -= 16
         if cat_to_murder.age == "senior":
             chance -= 16
-        if you.status.rank == cat_to_murder.status.rank:
+        if you.status == cat_to_murder.status:
             chance -= 16
         if you.experience > cat_to_murder.experience:
             chance -= 16
@@ -1255,7 +1285,7 @@ class MurderScreen(Screens):
         if not you_healthy:
             chance += 16
         
-        if cat_to_murder.status.rank == CatRank.LEADER:
+        if cat_to_murder.status == "leader":
             if game.clan.leader_lives > 1:
                 chance += 40
             else:
@@ -1289,7 +1319,7 @@ class MurderScreen(Screens):
                 chance -= 11
             if ("radiates elegance" or "renowned hunter" or "unusually strong fighter") in your_skills:
                 chance -= 15
-            if you.status.rank == CatRank.WARRIOR and you_healthy:
+            if you.status == "warrior" and you_healthy:
                 chance -= 23
             if you.age != cat_to_murder.age and you.moons > cat_to_murder.moons:
                 chance -= 16
@@ -1300,9 +1330,9 @@ class MurderScreen(Screens):
             if you.personality.trait == "bloodthirsty":
                 chance -= 16
 
-            if cat_to_murder.status.rank == CatRank.WARRIOR and cat_healthy:
+            if cat_to_murder.status == "warrior" and cat_healthy:
                 chance += 15
-            if not you.status.rank.is_any_adult_warrior_like_rank():
+            if you.status in ["mediator", "mediator apprentice", "queen", "queen's apprentice", "medicine cat", "medicine cat apprentice", "kitten"]:
                 chance += 10
 
             if "avid play-fighter" in their_skills:
@@ -1339,7 +1369,7 @@ class MurderScreen(Screens):
 
             if game.clan.biome == "Mountainous":
                 chance += 10
-            if cat_to_murder.status.rank.is_any_adult_warrior_like_rank() and cat_healthy:
+            if cat_to_murder.status in ["warrior", "deputy", "leader"] and cat_healthy:
                 chance += 11
 
         if self.method == "predator":
@@ -1361,9 +1391,9 @@ class MurderScreen(Screens):
             if self.location == "camp":
                 chance -= 35
 
-            if cat_to_murder.status.rank.is_any_adult_warrior_like_rank() and cat_healthy:
+            if cat_to_murder.status in ["warrior", "deputy", "leader"] and cat_healthy:
                 chance += 10
-            if not you.status.rank.is_any_adult_warrior_like_rank():
+            if you.status in ["queen", "mediator", "kitten", "medicine cat", "queen's apprentice", "mediator apprentice", "medicine cat apprentice"]:
                 chance += 15
 
             if "avid play-fighter" in their_skills:
@@ -1390,8 +1420,12 @@ class MurderScreen(Screens):
     def choose_murder_text(self, you, cat_to_murder, accomplice, accompliced):
         """chooses murder text. nuff said also chooses whether the mc is injured or dies"""
 
-        self.m_txt = load_lang_resource("events/lifegen_events/murder.json")
-        self.mu_txt = load_lang_resource("events/lifegen_events/murder_unsuccessful.json")
+        with open(f"{self.RESOURCE_DIR}murder.json",
+                encoding="ascii") as read_file:
+            self.m_txt = ujson.loads(read_file.read())
+        with open(f"{self.RESOURCE_DIR}murder_unsuccessful.json",
+                encoding="ascii") as read_file:
+            self.mu_txt = ujson.loads(read_file.read())
 
         leaddeath = randint(1,100)
        
@@ -1399,7 +1433,7 @@ class MurderScreen(Screens):
 
         all_leader_lives = False
 
-        if cat_to_murder.status.rank == CatRank.LEADER:
+        if cat_to_murder.status == "leader":
             if leaddeath < leader_death_chance + 1:
                 all_leader_lives = True
 
@@ -1420,7 +1454,7 @@ class MurderScreen(Screens):
             death = True
         
         if death and not injury:
-            if you.status.rank == CatRank.LEADER:
+            if you.status == "leader":
                 game.clan.leader_lives -= 1
             you.die()
 
@@ -1483,10 +1517,10 @@ class MurderScreen(Screens):
                         continue
 
                 elif "healer_cat" in murder_dict["your_status"]:
-                    if you.status.rank not in [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE]:
+                    if you.status not in ["medicine cat", "medicine cat apprentice"]:
                         continue
                 
-                elif you.status.rank not in murder_dict["your_status"]:
+                elif you.status not in murder_dict["your_status"]:
                     if "any" not in murder_dict["your_status"]:
                         continue
 
@@ -1504,16 +1538,16 @@ class MurderScreen(Screens):
                         continue
 
                 elif "healer_cat" in murder_dict["victim_status"]:
-                    if cat_to_murder.status.rank not in [CatRank.MEDICINE_APPRENTICE, CatRank.MEDICINE_CAT]:
+                    if cat_to_murder.status not in ["medicine cat", "medicine cat apprentice"]:
                         continue
                 
-                elif cat_to_murder.status.rank not in murder_dict["victim_status"]:
+                elif cat_to_murder.status not in murder_dict["victim_status"]:
                     if "any" not in murder_dict["victim_status"]:
                         continue
 
             if "relationship" in murder_dict and murder_dict["relationship"]:
                 if "mates" in murder_dict["relationship"]:
-                    if cat_to_murder not in you.mate:
+                    if cat_to_murder not in you.mates:
                         continue
                 if "siblings" in murder_dict["relationship"]:
                     if cat_to_murder.ID not in you.inheritance.get_siblings():
@@ -1567,8 +1601,8 @@ class MurderScreen(Screens):
             # perhaps skills and clusters in the future.
             if "tags" in murder_dict and murder_dict["tags"]:
                 if (
-                    (all_leader_lives and cat_to_murder.status.rank == CatRank.LEADER)
-                    or (not all_leader_lives and cat_to_murder.status.rank == CatRank.LEADER and game.clan.leader_lives == 1)
+                    (all_leader_lives and cat_to_murder.status == "leader")
+                    or (not all_leader_lives and cat_to_murder.status == "leader"and game.clan.leader_lives == 1)
                     ):
                     if "all_lives" not in murder_dict["tags"]:
                         continue
@@ -1646,26 +1680,18 @@ class MurderScreen(Screens):
 
         ceremony_txt = choice(ceremony_txt)
 
-        other_clan = choice(game.clan.all_other_clans)
-        ceremony_txt = ceremony_txt.replace("o_c_n", str(other_clan.name) + "Clan")
+        other_clan = choice(game.clan.all_clans)
         ceremony_txt = ceremony_txt.replace('c_n', game.clan.name)
+        ceremony_txt = ceremony_txt.replace("o_c_n", str(other_clan.name) + "Clan")
     
         medcats = []
         for cat in Cat.all_cats_list:
-            if (
-                cat.status.rank == CatRank.MEDICINE_CAT and
-                cat.status.alive_in_player_clan and
-                cat.status.rank != you.status.rank
-                ):
+            if cat.status == "medicine cat" and not cat.dead and not cat.outside and cat.status != you.status:
                 medcats.append(cat)
 
         warriors = []
         for cat in Cat.all_cats_list:
-            if (
-                cat.status.rank == CatRank.WARRIOR and
-                cat.status.alive_in_player_clan and
-                cat.status.rank != you.status.rank
-                ):
+            if cat.status == "warrior" and not cat.dead and not cat.outside and cat.status != you.status:
                 medcats.append(cat)
 
         if len(medcats) > 0:
@@ -1694,7 +1720,7 @@ class MurderScreen(Screens):
 
         ceremony_txt = process_text(ceremony_txt, replace_dict)
 
-        if cat_to_murder.status.rank == CatRank.LEADER and all_leader_lives:
+        if cat_to_murder.status == 'leader' and all_leader_lives:
             game.clan.leader_lives = 0
         
         involved_cats = [game.clan.your_cat.ID, cat_to_murder.ID]
@@ -1728,15 +1754,6 @@ class MurderScreen(Screens):
             discovered = True
         else:
             discovered = False
-
-        game.clan.your_cat.history.add_murder(game.clan.your_cat.ID, cat_to_murder)
-        game.clan.your_cat.history.reveal_murder(
-            victim=cat_to_murder,
-            murderer_id=game.clan.your_cat.ID,
-            clan_reveal=discovered,
-            aware_individuals=[accomplice] if accomplice else [],
-            shunned_cat=game.clan.your_cat
-        )
             
         if discovered:
             if accomplice and accompliced:
@@ -1750,7 +1767,9 @@ class MurderScreen(Screens):
                         "You successfully murdered "+ str(cat_to_murder.name) + " with the help of " + str(accomplice.name) + ".",
                         ["alert", "birth_death"],
                         [game.clan.your_cat.ID, cat_to_murder.ID, accomplice.ID]))
-                cat_to_murder.history.add_death(f"{you.name} and {accomplice.name} murdered this cat.")
+                History.add_death(cat_to_murder, f"{you.name} and {accomplice.name} murdered this cat.")
+                History.add_murders(cat_to_murder, accomplice, True, f"{you.name} murdered this cat along with {accomplice.name}.")
+                History.add_murders(cat_to_murder, you, True, f"{you.name} murdered this cat with the help of {accomplice.name}.")
                 
                 accguiltchance = randint(1,2)
                 if accguiltchance == 1:
@@ -1771,12 +1790,15 @@ class MurderScreen(Screens):
                         "You successfully murdered "+ str(cat_to_murder.name) + ".",
                         ["alert", "birth_death"],
                         [game.clan.your_cat.ID, cat_to_murder.ID]))
-                cat_to_murder.history.add_death(f"{you.name} murdered this cat.")
+                History.add_death(cat_to_murder, f"{you.name} murdered this cat.")
+                History.add_murders(cat_to_murder, you, True, f"{you.name} murdered this cat.")
             self.choose_discover_punishment(you, cat_to_murder, accomplice, accompliced)
         else:
             if accomplice:
                 if accompliced:
-                    cat_to_murder.history.add_death(f"{you.name} and {accomplice.name} murdered this cat.")
+                    History.add_death(cat_to_murder, f"{you.name} and {accomplice.name} murdered this cat.")
+                    History.add_murders(cat_to_murder, you, True, f"{you.name} murdered this cat along with {accomplice.name}.")
+                    History.add_murders(cat_to_murder, accomplice, True, f"{you.name} murdered this cat along with {accomplice.name}.")
                     
                     if game.clan.your_cat.dead:
                         game.cur_events_list.insert(1, Single_Event(
@@ -1801,7 +1823,8 @@ class MurderScreen(Screens):
                             accomplice.get_injured("guilt")
 
                 else:
-                    cat_to_murder.history.add_death(f"{you.name} murdered this cat.")
+                    History.add_death(cat_to_murder, f"{you.name} murdered this cat.")
+                    History.add_murders(cat_to_murder, you, True, f"{you.name} murdered this cat.")
                     
                     if game.clan.your_cat.dead:
                         game.cur_events_list.insert(1, Single_Event(
@@ -1814,7 +1837,8 @@ class MurderScreen(Screens):
                             ["alert", "birth_death"],
                             [game.clan.your_cat.ID, accomplice.ID, cat_to_murder.ID]))
             else:
-                cat_to_murder.history.add_death(f"{you.name} murdered this cat.")
+                History.add_death(cat_to_murder, f"{you.name} murdered this cat.")
+                History.add_murders(cat_to_murder, you, True, f"{you.name} murdered this cat.")
                 
                 if game.clan.your_cat.dead:
                     game.cur_events_list.insert(1, Single_Event(
@@ -1862,12 +1886,40 @@ class MurderScreen(Screens):
                 return
             punishment_chance = 1
 
+        shunned_cats = []
+        if punishment_chance == 1:
+            shunned_cats = [you]
+        elif punishment_chance == 2:
+            shunned_cats = [accomplice]
+        else:
+            shunned_cats = [you, accomplice]
+
+        for kitty in shunned_cats:
+            if kitty is None:
+                continue
+            if not kitty.dead:
+                murder_history = History.get_murders(kitty)
+                History.reveal_murder(
+                    cat=kitty,
+                    other_cat=None,
+                    cat_class=Cat,
+                    victim=cat_to_murder,
+                    murder_index=-1,
+                    shunned=True
+                )
+                if kitty.status not in ["apprentice", "kitten", "elder", "warrior"]:
+                    event_text = kitty.shunned_demotion()
+                    game.cur_events_list.insert(3, Single_Event(
+                        event_text,
+                        ["alert"],
+                        [game.clan.your_cat.ID]))
+
         if not accomplice or not accompliced:
             punishment_chance = 1
         if punishment_chance == 1:
             if accomplice and not accompliced:
                 a_s = randint(1,2)
-                if a_s == 1 and accomplice.rank != CatRank.LEADER and game.clan.leader:
+                if a_s == 1 and accomplice.status != "leader" and game.clan.leader:
                     game.cur_events_list.insert(2, Single_Event(
                         f"Shocked at your request to be an accomplice to murder, {accomplice.name} reports your actions to the Clan leader.",
                         ["alert", "birth_death"],
@@ -1876,8 +1928,8 @@ class MurderScreen(Screens):
             if game.clan.your_cat.dead:
                 txt = choice(self.mu_txt["murder_discovered dead general"])
             else:
-                if game.clan.your_cat.status.rank in [CatRank.KITTEN, CatRank.LEADER, CatRank.DEPUTY, CatRank.MEDICINE_CAT]:
-                    txt = choice(self.mu_txt["murder_discovered " + game.clan.your_cat.status.rank])
+                if game.clan.your_cat.status in ['kitten', 'leader', 'deputy', 'medicine cat']:
+                    txt = choice(self.mu_txt["murder_discovered " + game.clan.your_cat.status])
                 else:
                     txt = choice(self.mu_txt["murder_discovered general"])
             txt = txt.replace('v_c', str(cat_to_murder.name))
@@ -1918,26 +1970,26 @@ class MurderScreen(Screens):
             # demote_medicine_cat = ["The Clan decides that you will be demoted to a warrior, no longer trusting you as their medicine cat."]
             # exiled = ["The Clan decides that they no longer feel safe with you as a Clanmate. You will be exiled from the Clan."]
             
-            if you.status.rank in [CatRank.NEWBORN, CatRank.KITTEN]:
+            if you.status == 'kitten' or you.status == 'newborn':
                 game.cur_events_list.insert(3, Single_Event(
                     choice(kit_punishment),
                     ["alert"],
                     [game.clan.your_cat.ID]))
-            elif you.status.rank == CatRank.LEADER:
+            elif you.status == 'leader':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
                         choice(gen_punishment),
                         ["alert"],
                         [game.clan.your_cat.ID]))
-            elif you.status.rank == CatRank.DEPUTY:
+            elif you.status == 'deputy':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
                         choice(gen_punishment),
                         ["alert"],
                         [game.clan.your_cat.ID]))
-            elif you.status.rank == CatRank.MEDICINE_CAT:
+            elif you.status == 'medicine cat':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
@@ -1966,12 +2018,12 @@ class MurderScreen(Screens):
             # demote_medicine_cat = [f"The Clan decides that {a_n} will be demoted to a warrior, no longer trusting them as their medicine cat."]
             # exiled = [f"The Clan decides that they no longer feel safe with {a_n} as a Clanmate. They will be exiled from the Clan."]
 
-            if accomplice.status.rank in [CatRank.NEWBORN, CatRank.KITTEN]:
+            if accomplice.status == 'kitten' or accomplice.status == 'newborn':
                 game.cur_events_list.insert(3, Single_Event(
                     self.adjust_txt(choice(kit_punishment), accomplice, cat_to_murder),
                         ["alert", "birth_death"],
                         [game.clan.your_cat.ID, accomplice.ID]))
-            elif accomplice.status.rank == CatRank.LEADER:
+            elif accomplice.status == 'leader':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
@@ -1979,7 +2031,7 @@ class MurderScreen(Screens):
                         ["alert", "birth_death"],
                         [game.clan.your_cat.ID, accomplice.ID]))
                 
-            elif accomplice.status.rank == CatRank.DEPUTY:
+            elif accomplice.status == 'deputy':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
@@ -1987,7 +2039,7 @@ class MurderScreen(Screens):
                         ["alert", "birth_death"],
                         [game.clan.your_cat.ID, accomplice.ID]))
                
-            elif accomplice.status.rank == CatRank.MEDICINE_CAT:
+            elif accomplice.status == 'medicine cat':
                 lead_choice = randint(1,3)
                 if lead_choice == 1:
                     game.cur_events_list.insert(3, Single_Event(
@@ -2018,7 +2070,7 @@ class MurderScreen(Screens):
     def leader_death_chance(self, cat_to_murder, accomplice, accompliced):
         """calculates chance for leader to lose all of their lives if the murder succeeds. out of 100"""
         chance = 50
-        if cat_to_murder.status.rank != CatRank.LEADER:
+        if cat_to_murder.status != "leader":
             return
         
         if game.clan.leader_lives == 1:
@@ -2046,7 +2098,7 @@ class MurderScreen(Screens):
                 chance += 8
 
             if self.method == "poison":
-                if game.clan.your_cat.status.rank == CatRank.MEDICINE_CAT:
+                if game.clan.your_cat.status == "medicine cat":
                     chance += 0
                 else:
                     chance += 15
@@ -2063,7 +2115,7 @@ class MurderScreen(Screens):
             if self.method == "attack":
                 chance += 8
             if self.method == "poison":
-                if game.clan.your_cat.status.rank == CatRank.MEDICINE_CAT:
+                if game.clan.your_cat.status == "medicine cat":
                     chance += 15
                 else:
                     chance += 20
@@ -2098,7 +2150,7 @@ class MurderScreen(Screens):
             if self.method == "attack":
                 chance += 30
             if self.method == "poison":
-                if game.clan.your_cat.status.rank == CatRank.MEDICINE_CAT:
+                if game.clan.your_cat.status != "medicine cat":
                     chance += 20
             if self.method == "accident":
                 chance += 8
@@ -2146,24 +2198,27 @@ class MurderScreen(Screens):
                                 f"Despite your intent to murder {c_m}, they remained unscathed. They now look at you and {accomplice.name} with a hint of suspicion.",
                                 f"You and {accomplice.name} tried to kill {c_m}, but they survived. They now seem to watch you both with wary eyes.",
                                 f"Your plot to murder {c_m} fell through, and they remain alive, now showing signs of mild suspicion towards you and {accomplice.name}."]
-                if you.ID in cat_to_murder.relationships:
-                    cat_to_murder.relationships[you.ID].like -= randint(1,15)
-                    cat_to_murder.relationships[you.ID].comfort -= randint(1,15)
-                    cat_to_murder.relationships[you.ID].trust -= randint(1,15)
-                if accomplice.ID in cat_to_murder.relationships:
-                    cat_to_murder.relationships[accomplice.ID].like -= randint(1,15)
-                    cat_to_murder.relationships[accomplice.ID].comfort -= randint(1,15)
-                    cat_to_murder.relationships[accomplice.ID].trust -= randint(1,15)           
+                cat_to_murder.relationships[you.ID].dislike += randint(1,20)
+                cat_to_murder.relationships[you.ID].platonic_like -= randint(1,15)
+                cat_to_murder.relationships[you.ID].comfortable -= randint(1,15)
+                cat_to_murder.relationships[you.ID].trust -= randint(1,15)
+                cat_to_murder.relationships[you.ID].admiration -= randint(1,15)
+                cat_to_murder.relationships[accomplice.ID].dislike += randint(1,20)
+                cat_to_murder.relationships[accomplice.ID].platonic_like -= randint(1,15)
+                cat_to_murder.relationships[accomplice.ID].comfortable -= randint(1,15)
+                cat_to_murder.relationships[accomplice.ID].trust -= randint(1,15)
+                cat_to_murder.relationships[accomplice.ID].admiration -= randint(1,15)                
             else:
                 fail_texts = ["You attempted to murder "+ c_m + ", but your plot was unsuccessful. They appear to be slightly wary now.",
                                 "Your effort to end "+ c_m + "'s life was thwarted, and they now seem a bit more cautious around you.",
                                 "Despite your intent to murder "+ c_m + ", they remained unscathed. They look at you now with a hint of suspicion.",
                                 "You tried to kill "+ c_m + ", but they survived. They now seem to watch you with wary eyes.",
                                 "Your plot to murder "+ c_m + " fell through, and they remain alive, now showing signs of mild suspicion towards you."]
-                if you.ID in cat_to_murder.relationships:
-                    cat_to_murder.relationships[you.ID].like -= randint(1,15)
-                    cat_to_murder.relationships[you.ID].comfort -= randint(1,15)
-                    cat_to_murder.relationships[you.ID].trust -= randint(1,15)
+                cat_to_murder.relationships[you.ID].dislike += randint(1,20)
+                cat_to_murder.relationships[you.ID].platonic_like -= randint(1,15)
+                cat_to_murder.relationships[you.ID].comfortable -= randint(1,15)
+                cat_to_murder.relationships[you.ID].trust -= randint(1,15)
+                cat_to_murder.relationships[you.ID].admiration -= randint(1,15)
 
         text = choice(fail_texts)
         owie = "torn pelt"
@@ -2227,7 +2282,7 @@ class MurderScreen(Screens):
     best_murder_skills = ["incredibly clever", "unusually strong fighter", "unnatural senses","fast as the wind"]
 
     def get_kill(self, you, cat_to_murder, accomplice, accompliced):
-        chance = self.status_chances.get(you.status.rank, 0)
+        chance = self.status_chances.get(you.status, 0)
 
         you_healthy = not you.is_ill() and not you.is_injured()
 
@@ -2265,7 +2320,7 @@ class MurderScreen(Screens):
         if any(skill in self.best_murder_skills for skill in your_skills):
             chance += 20
 
-        chance += self.skill_chances.get(cat_to_murder.status.rank, 0)
+        chance += self.skill_chances.get(cat_to_murder.status, 0)
         
         if any(skill in self.murder_skills for skill in their_skills):
             chance -= 5
@@ -2284,7 +2339,7 @@ class MurderScreen(Screens):
             chance += 10
         if cat_to_murder.age == "senior":
             chance += 10
-        if you.status.rank == cat_to_murder.status.rank:
+        if you.status == cat_to_murder.status:
             chance += 5
         if not cat_healthy:
             chance += 10
@@ -2294,9 +2349,9 @@ class MurderScreen(Screens):
             chance += 15
             if accomplice.personality.trait == "bloodthirsty":
                 chance += 10
-            if accomplice.status.rank == CatRank.WARRIOR and accomplice_healthy:
+            if accomplice.status == "warrior" and accomplice_healthy:
                 chance += 5
-            if accomplice.status.rank in [CatRank.LEADER, CatRank.DEPUTY] and accomplice_healthy:
+            if accomplice.status in ["leader", "deputy"] and accomplice_healthy:
                 chance += 15
         
 
@@ -2308,11 +2363,10 @@ class MurderScreen(Screens):
                             chance += 5
 
 
-        if you.ID in cat_to_murder.relationships:
-            if cat_to_murder.relationships[you.ID].like > 20 and cat_to_murder.relationships[you.ID].like < 50:
-                chance += 10
-            elif cat_to_murder.relationships[you.ID].like >= 50:
-                chance += 15
+        if cat_to_murder.relationships[you.ID].platonic_like > 20 and cat_to_murder.relationships[you.ID].platonic_like < 50:
+            chance += 10
+        elif cat_to_murder.relationships[you.ID].platonic_like >= 50:
+            chance += 15
 
         if self.time == "night":
             chance += 10
@@ -2324,13 +2378,13 @@ class MurderScreen(Screens):
         if not you_healthy:
             chance -= 10
 
-        if cat_to_murder.status.rank == CatRank.LEADER and not cat_to_murder.status.is_shunned() and cat_healthy:
+        if cat_to_murder.status == "leader" and cat_to_murder.shunned == 0 and cat_healthy:
             chance -= 10
 
         if cat_to_murder.moons < 6:
             for cat in Cat.all_cats_list:
                 if cat.ID != you.ID:
-                    if cat.status.rank == CatRank.QUEEN:
+                    if cat.status == "queen":
                         chance -= 5
                     if cat.ID == (cat_to_murder.parent1 or cat_to_murder.parent2) or cat.ID in cat_to_murder.adoptive_parents:
                         chance -= 5
@@ -2362,13 +2416,7 @@ class MurderScreen(Screens):
             if "campkeeper" in their_skills:
                 chance -= 15
 
-        if cat_to_murder.status.rank in [
-            CatRank.QUEEN,
-            CatRank.QUEENS_APPRENTICE,
-            CatRank.MEDICINE_CAT,
-            CatRank.MEDICINE_APPRENTICE,
-            CatRank.KITTEN
-            ] and self.location != "camp":
+        if cat_to_murder.status in ["queen", "queen's apprentice", "medicine cat", "medicine cat apprentice", "kitten"] and self.location != "camp":
             chance -= 8
 
         if cat_to_murder.history:
@@ -2378,11 +2426,10 @@ class MurderScreen(Screens):
                         for i in range(len(cat_to_murder.history.murder["is_murderer"])):
                             chance -= 5
 
-        if you.ID in cat_to_murder.relationships:
-            if cat_to_murder.relationships[you.ID].like < -20 and cat_to_murder.relationships[you.ID].like >= -50:
-                chance -= 10
-            elif cat_to_murder.relationships[you.ID].like <= -50:
-                chance -= 15
+        if cat_to_murder.relationships[you.ID].dislike > 20 and cat_to_murder.relationships[you.ID].platonic_like < 50:
+            chance -= 10
+        elif cat_to_murder.relationships[you.ID].dislike >= 50:
+            chance -= 15
 
         if self.time == "day":
             chance -= 10
@@ -2403,7 +2450,7 @@ class MurderScreen(Screens):
             if ("radiates elegance" or "renowned hunter" or "unusually strong fighter") in your_skills:
                 chance += 15
 
-            if you.status.rank == CatRank.WARRIOR:
+            if you.status == "warrior":
                 chance += 10
             if you.age != cat_to_murder.age and you.moons > cat_to_murder.moons:
                 chance += 10
@@ -2416,9 +2463,9 @@ class MurderScreen(Screens):
 
             # lowers chances
 
-            if cat_to_murder.status.rank == CatRank.WARRIOR:
+            if cat_to_murder.status == "warrior":
                 chance -= 10
-            if not you.status.rank.is_any_adult_warrior_like_rank():
+            if you.status in ["mediator", "mediator apprentice", "queen", "queen's apprentice", "medicine cat", "medicine cat apprentice", "kitten"]:
                 chance -= 10
             
             if "avid play-fighter" in their_skills:
@@ -2437,7 +2484,7 @@ class MurderScreen(Screens):
 
         if self.method == "poison":
             # raises chances
-            if you.status.rank in [CatRank.MEDICINE_APPRENTICE, CatRank.MEDICINE_CAT]:
+            if you.status in ["medicine cat", "medicine cat apprentice"]:
                 chance += 25
             if cat_to_murder.is_ill() or cat_to_murder.is_injured():
                 chance += 15
@@ -2448,11 +2495,11 @@ class MurderScreen(Screens):
                 chance += 15
 
             # lowers chances
-            if cat_to_murder.status.rank in [CatRank.MEDICINE_APPRENTICE, CatRank.MEDICINE_CAT]:
+            if cat_to_murder.status in ["medicine cat", "medicine cat apprentice"]:
                 chance -= 15
             if not cat_to_murder.is_ill() and not cat_to_murder.is_injured():
                 chance -= 10
-            if you.status.rank not in [CatRank.MEDICINE_APPRENTICE, CatRank.MEDICINE_CAT]:
+            if you.status not in ["medicine cat", "medicine cat apprentice"]:
                 chance -= 20
 
             if self.location == "border":
@@ -2477,7 +2524,7 @@ class MurderScreen(Screens):
             if any(skill in acc_skills_lvl_4 for skill in your_skills):
                 chance += 20
 
-            if not cat_to_murder.status.rank.is_any_adult_warrior_like_rank() and \
+            if cat_to_murder.status in ["kitten", "queen", "apprentice", "queen's apprentice", "medicine cat apprentice", "mediator apprentice"] and \
                 not cat_to_murder.skills.meets_skill_requirement(SkillPath.EXPLORER) and\
                 not cat_to_murder.skills.meets_skill_requirement(SkillPath.NAVIGATOR) and\
                 not cat_to_murder.skills.meets_skill_requirement(SkillPath.CLIMBER):
@@ -2501,7 +2548,7 @@ class MurderScreen(Screens):
             if any(skill in acc_skills_lvl_4 for skill in their_skills):
                 chance -= 20
             
-            if cat_to_murder.status.rank.is_any_adult_warrior_like_rank():
+            if cat_to_murder.status in ["warrior", "deputy", "leader"]:
                 chance -= 15
             if you.moons >= 12 and cat_to_murder.moons >= 12:
                 chance -= 10
@@ -2540,9 +2587,9 @@ class MurderScreen(Screens):
             # lowers chances
             if cat_to_murder.moons >= 12:
                 chance -= 10
-            if cat_to_murder.status.rank.is_any_adult_warrior_like_rank():
+            if cat_to_murder.status in ["warrior", "deputy", "leader"]:
                 chance -= 10
-            if not you.status.rank.is_any_adult_warrior_like_rank():
+            if you.status in ["queen", "mediator", "kitten", "medicine cat", "queen's apprentice", "mediator apprentice", "medicine cat apprentice"]:
                 chance -= 15
 
             if "watchful" in their_skills:
@@ -2745,7 +2792,7 @@ class MurderScreen(Screens):
             del self.willingnesstext
 
         if self.selected_cat:
-            if (self.selected_cat.status.alive_in_player_clan):
+            if (not self.selected_cat.dead and not self.selected_cat.outside):
                 if (game.clan.your_cat.skills.meets_skill_requirement(SkillPath.PROPHET) or\
                     game.clan.your_cat.skills.meets_skill_requirement(SkillPath.CLEVER) or\
                     game.clan.your_cat.skills.meets_skill_requirement(SkillPath.SENSE) or\
@@ -2794,9 +2841,9 @@ class MurderScreen(Screens):
 
                         chance = self.get_accomplice_chance(game.clan.your_cat, self.selected_cat, self.cat_to_murder)
                         
-                        if constants.CONFIG["lifegen"]["gen"]["accomplice_chance"] != -1:
+                        if game.config["accomplice_chance"] != -1:
                             try:
-                                chance = constants.CONFIG["lifegen"]["gen"]["accomplice_chance"]
+                                chance = game.config["accomplice_chance"]
                             except:
                                 pass
                         if chance < 20:
@@ -2842,7 +2889,7 @@ class MurderScreen(Screens):
                     manager=MANAGER,
                 )
 
-            info = self.selected_cat.status.rank + "\n" + \
+            info = self.selected_cat.status + "\n" + \
                    self.selected_cat.genderalign + "\n" + self.selected_cat.personality.trait + "\n"
 
             if self.selected_cat.moons < 1:
@@ -2878,25 +2925,33 @@ class MurderScreen(Screens):
     def get_accomplice_chance(self, you, accomplice, cat_to_murder):
         chance = 10
         if accomplice is not None:
-            if you.ID in accomplice.relationships:
-                if accomplice.relationships[you.ID].like > 10:
-                    chance += 10
-                if accomplice.relationships[you.ID].like > -10:
-                    chance += 10
-                if accomplice.relationships[you.ID].romance > 10:
-                    chance += 10
-                if accomplice.relationships[you.ID].comfort > 10:
-                    chance += 10
-                if accomplice.relationships[you.ID].trust > 10:
-                    chance += 10
-            if you.status.rank in [CatRank.MEDICINE_CAT, CatRank.MEDIATOR, CatRank.DEPUTY, CatRank.LEADER]:
+            if accomplice.relationships[you.ID].platonic_like > 10:
                 chance += 10
-            if accomplice.status.rank in [CatRank.MEDICINE_CAT, CatRank.MEDIATOR, CatRank.DEPUTY, CatRank.LEADER]:
+            if accomplice.relationships[you.ID].dislike < 10:
+                chance += 10
+            if accomplice.relationships[you.ID].romantic_love > 10:
+                chance += 10
+            if accomplice.relationships[you.ID].comfortable > 10:
+                chance += 10
+            if accomplice.relationships[you.ID].trust > 10:
+                chance += 10
+            if accomplice.relationships[you.ID].admiration > 10:
+                chance += 10
+            if you.status in ['medicine cat', 'mediator', 'deputy', 'leader']:
+                chance += 10
+            if accomplice.status in ['medicine cat', 'mediator', 'deputy', 'leader']:
                 chance -= 20
-            if accomplice.ID in game.clan.your_cat.mate:
+            if accomplice.ID in game.clan.your_cat.mates:
                 chance += 50
             if game.clan.your_cat.is_related(accomplice, False):
                 chance += 30
+
+            #relationship to the victim
+            # TODO: make these chances better lol
+            if cat_to_murder.ID in accomplice.relationships:
+                chance += accomplice.relationships[self.cat_to_murder.ID].dislike / 2
+                chance -= accomplice.relationships[self.cat_to_murder.ID].platonic_like
+                chance -= accomplice.relationships[self.cat_to_murder.ID].romantic_love
 
         return chance
                     
@@ -2915,7 +2970,7 @@ class MurderScreen(Screens):
                     manager=MANAGER,
                 )
 
-            info = self.selected_cat.status.rank + "\n" + \
+            info = self.selected_cat.status + "\n" + \
                    self.selected_cat.genderalign + "\n" + self.selected_cat.personality.trait + "\n"
             
             if self.selected_cat.moons < 1:
@@ -3036,7 +3091,7 @@ class MurderScreen(Screens):
         valid_mentors = []
 
         for cat in Cat.all_cats_list:
-            if cat.status.alive_in_player_clan and not cat.ID == game.clan.your_cat.ID and not cat.moons == 0:
+            if not cat.dead and not cat.outside and not cat.ID == game.clan.your_cat.ID and not cat.moons == 0:
                 valid_mentors.append(cat)
         
         return valid_mentors
@@ -3044,7 +3099,7 @@ class MurderScreen(Screens):
     def get_valid_cats2(self):
         valid_mentors = []
         for cat in Cat.all_cats_list:
-            if cat.status.alive_in_player_clan and cat.ID != game.clan.your_cat.ID and cat.ID != self.cat_to_murder.ID and not cat.moons == 0:
+            if not cat.dead and not cat.outside and cat.ID != game.clan.your_cat.ID and cat.ID != self.cat_to_murder.ID and not cat.moons == 0:
                 valid_mentors.append(cat)
         
         return valid_mentors

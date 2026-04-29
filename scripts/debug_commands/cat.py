@@ -3,7 +3,7 @@ from typing import List
 from scripts.cat.cats import Cat
 from scripts.debug_commands.command import Command
 from scripts.debug_commands.utils import add_output_line_to_log
-from scripts.game_structure import game
+from scripts.game_structure.game_essentials import game
 
 
 class AddCatCommand(Command):
@@ -42,9 +42,7 @@ class ListCatsCommand(Command):
 
     def callback(self, args: List[str]):
         for cat in Cat.all_cats_list:
-            add_output_line_to_log(
-                f"{cat.ID} - {cat.name}, {cat.status.rank}, {cat.moons} moons old"
-            )
+            add_output_line_to_log(f"{cat.ID} - {cat.name}, {cat.status}, {cat.moons} moons old")
 
 
 class AgeCatsCommand(Command):
@@ -74,13 +72,13 @@ class AgeCatsCommand(Command):
 class CatsCommand(Command):
     name = "cats"
     description = "Manage Cats"
-    aliases = ["cat", "c"]
+    aliases = ["cat"]
 
     sub_commands = [
         AddCatCommand(),
         RemoveCatCommand(),
         ListCatsCommand(),
-        AgeCatsCommand(),
+        AgeCatsCommand()
     ]
 
     def callback(self, args: List[str]):

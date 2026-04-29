@@ -1,23 +1,30 @@
 from typing import Dict
 
-import i18n
 import pygame.transform
 import pygame_gui.elements
 
 from scripts.cat.cats import Cat
 from scripts.game_structure import image_cache
+from scripts.game_structure.game_essentials import (
+    game,
+)
 from scripts.game_structure.propagating_thread import PropagatingThread
-from ..ui.elements.sprite_button import UISpriteButton
-from ..ui.elements.image_button import UIImageButton
-from ..ui.elements.surface_image_button import UISurfaceImageButton
-from ..ui.theme import get_text_box_theme
-from ..ui.scale import ui_scale, ui_scale_dimensions, ui_scale_offset
+from scripts.game_structure.ui_elements import (
+    UIImageButton,
+    UISpriteButton,
+    UISurfaceImageButton,
+)
+from scripts.utility import (
+    get_text_box_theme,
+    ui_scale,
+    ui_scale_dimensions,
+    ui_scale_offset,
+)
 from .Screens import Screens
-from .enums import GameScreen
-from ..game_structure.game.switches import switch_set_value, switch_get_value, Switch
 from ..game_structure.screen_settings import MANAGER
 from ..ui.generate_box import BoxStyles, get_box
 from ..ui.generate_button import get_button_dict, ButtonStyles
+from ..ui.get_arrow import get_arrow
 from ..ui.icon import Icon
 
 
@@ -94,7 +101,7 @@ class ChooseAdoptiveParentScreen(Screens):
             # Cat buttons list
             if event.ui_element == self.back_button:
                 self.selected_mate_index = 0
-                self.change_screen(GameScreen.PROFILE)
+                self.change_screen("profile screen")
             elif event.ui_element == self.toggle_adoptive_parent:
                 if self.work_thread is not None and self.work_thread.is_alive():
                     return
@@ -104,13 +111,13 @@ class ChooseAdoptiveParentScreen(Screens):
 
             elif event.ui_element == self.previous_cat_button:
                 if isinstance(Cat.fetch_cat(self.previous_cat), Cat):
-                    switch_set_value(Switch.cat, self.previous_cat)
+                    game.switches["cat"] = self.previous_cat
                     self.update_current_cat_info()
                 else:
                     print("invalid previous cat", self.previous_cat)
             elif event.ui_element == self.next_cat_button:
                 if isinstance(Cat.fetch_cat(self.next_cat), Cat):
-                    switch_set_value(Switch.cat, self.next_cat)
+                    game.switches["cat"] = self.next_cat
                     self.update_current_cat_info()
                 else:
                     print("invalid next cat", self.next_cat)
@@ -153,8 +160,8 @@ class ChooseAdoptiveParentScreen(Screens):
                 self.selected_cat = event.ui_element.cat_object
                 self.update_selected_cat()
             elif event.ui_element in self.birth_parents_buttons.values():
-                switch_set_value(Switch.cat, event.ui_element.cat_object.ID)
-                self.change_screen(GameScreen.PROFILE)
+                game.switches["cat"] = event.ui_element.cat_object.ID
+                self.change_screen("profile screen")
 
     def screen_switches(self):
         """Sets up the elements that are always on the page"""
@@ -167,7 +174,8 @@ class ChooseAdoptiveParentScreen(Screens):
         )
         del list_frame
         self.info = pygame_gui.elements.UITextBox(
-            "screens.choose_adoptive_parent.info",
+            "If a cat is added as an adoptive parent, they will be displayed on the family page and considered a full relative. "
+            "Adoptive and blood parents will be treated the same; this also applies to siblings. ",
             ui_scale(pygame.Rect((200, 60), (400, 100))),
             object_id=get_text_box_theme("#text_box_22_horizcenter_spacing_95"),
         )
@@ -177,7 +185,10 @@ class ChooseAdoptiveParentScreen(Screens):
             "",
             object_id="#help_button",
             manager=MANAGER,
-            tool_tip_text="screens.choose_adoptive_parent.help_tooltip",
+            tool_tip_text="A cat's adoptive parents are set automatically when the cat is born. "
+            "Any cats that are mates with the parents at the time of birth are considered adoptive parents."
+            "<br><br>"
+            "To be a possible adoptive parent, the cat has to be 14 moons older than the child.",
         )
 
         self.the_cat_frame = pygame_gui.elements.UIImage(
@@ -210,7 +221,7 @@ class ChooseAdoptiveParentScreen(Screens):
 
         self.next_cat_button = UISurfaceImageButton(
             ui_scale(pygame.Rect((622, 25), (153, 30))),
-            "buttons.next_cat",
+            "Next Cat " + get_arrow(3, arrow_left=False),
             get_button_dict(ButtonStyles.SQUOVAL, (153, 30)),
             object_id="@buttonstyles_squoval",
             manager=MANAGER,
@@ -218,7 +229,7 @@ class ChooseAdoptiveParentScreen(Screens):
         )
         self.previous_cat_button = UISurfaceImageButton(
             ui_scale(pygame.Rect((25, 25), (153, 30))),
-            "buttons.previous_cat",
+            get_arrow(2, arrow_left=True) + " Previous Cat",
             get_button_dict(ButtonStyles.SQUOVAL, (153, 30)),
             object_id="@buttonstyles_squoval",
             manager=MANAGER,
@@ -226,7 +237,7 @@ class ChooseAdoptiveParentScreen(Screens):
         )
         self.back_button = UISurfaceImageButton(
             ui_scale(pygame.Rect((25, 60), (105, 30))),
-            "buttons.back",
+            get_arrow(2) + " Back",
             get_button_dict(ButtonStyles.SQUOVAL, (105, 30)),
             object_id="@buttonstyles_squoval",
             manager=MANAGER,
@@ -283,14 +294,14 @@ class ChooseAdoptiveParentScreen(Screens):
 
         # Checkboxes and text
         self.mates_current_parents_text = pygame_gui.elements.UITextBox(
-            "screens.choose_adoptive_parent.mates_current_parents",
+            "Mates of current parents",
             ui_scale(pygame.Rect((515, 5), (110, -1))),
             object_id="#text_box_26_horizcenter",
             container=self.potential_container,
         )
 
         self.unrelated_only_text = pygame_gui.elements.UITextBox(
-            "screens.choose_adoptive_parent.unrelated",
+            "Not closely related",
             ui_scale(pygame.Rect((515, 85), (110, -1))),
             object_id="#text_box_26_horizcenter",
             container=self.potential_container,
@@ -303,7 +314,7 @@ class ChooseAdoptiveParentScreen(Screens):
         # This may be deleted and changed later.
         self.toggle_adoptive_parent = UISurfaceImageButton(
             ui_scale(pygame.Rect((303, 310), (192, 30))),
-            "screens.choose_adoptive_parent.set_parent",
+            "Set adoptive parent",
             get_button_dict(ButtonStyles.SQUOVAL, (192, 30)),
             object_id="@buttonstyles_squoval",
         )
@@ -369,7 +380,7 @@ class ChooseAdoptiveParentScreen(Screens):
 
         birth_parents = [
             Cat.fetch_cat(i)
-            for i in (self.the_cat.parent1, self.the_cat.parent2)
+            for i in [self.the_cat.parent1, self.the_cat.parent2]
             if isinstance(Cat.fetch_cat(i), Cat)
         ]
 
@@ -653,23 +664,15 @@ class ChooseAdoptiveParentScreen(Screens):
     def update_current_cat_info(self, reset_selected_cat=True):
         """Updates all elements with the current cat, as well as the selected cat.
         Called when the screen switched, and whenever the focused cat is switched"""
-        self.the_cat = Cat.all_cats[switch_get_value(Switch.cat)]
+        self.the_cat = Cat.all_cats[game.switches["cat"]]
 
         (
             self.next_cat,
             self.previous_cat,
         ) = self.the_cat.determine_next_and_previous_cats()
 
-        (
-            self.next_cat_button.disable()
-            if self.next_cat == 0
-            else self.next_cat_button.enable()
-        )
-        (
-            self.previous_cat_button.disable()
-            if self.previous_cat == 0
-            else self.previous_cat_button.enable()
-        )
+        self.next_cat_button.disable() if self.next_cat == 0 else self.next_cat_button.enable()
+        self.previous_cat_button.disable() if self.previous_cat == 0 else self.previous_cat_button.enable()
 
         for ele in self.current_cat_elements:
             self.current_cat_elements[ele].kill()
@@ -680,10 +683,9 @@ class ChooseAdoptiveParentScreen(Screens):
         self.selected_cat_elements = {}
 
         self.current_cat_elements["heading"] = pygame_gui.elements.UITextBox(
-            "screens.choose_adoptive_parent.heading",
+            "Choose adoptive parents for " + str(self.the_cat.name),
             ui_scale(pygame.Rect((150, 25), (500, 40))),
             object_id=get_text_box_theme("#text_box_34_horizcenter"),
-            text_kwargs={"m_c": self.the_cat},
         )
 
         self.current_cat_elements["image"] = pygame_gui.elements.UIImage(
@@ -702,13 +704,14 @@ class ChooseAdoptiveParentScreen(Screens):
             object_id="#text_box_34_horizcenter",
         )
 
-        info = "\n".join(
-            [
-                i18n.t("general.moons_age", count=self.the_cat.moons),
-                i18n.t(f"general.{self.the_cat.status.rank.lower()}", count=1),
-                self.the_cat.genderalign,
-                i18n.t(f"cat.personality.{self.the_cat.personality.trait}"),
-            ]
+        info = (
+            str(self.the_cat.moons)
+            + " moons\n"
+            + self.the_cat.status
+            + "\n"
+            + self.the_cat.genderalign
+            + "\n"
+            + self.the_cat.personality.trait
         )
         self.current_cat_elements["info"] = pygame_gui.elements.UITextBox(
             info,
@@ -743,7 +746,7 @@ class ChooseAdoptiveParentScreen(Screens):
         button_rect.bottomleft = ui_scale_offset((100, 8))
         self.tab_buttons["potential"] = UISurfaceImageButton(
             button_rect,
-            "screens.choose_adoptive_parent.potential",
+            "Potential Parents",
             get_button_dict(ButtonStyles.HORIZONTAL_TAB, (153, 39)),
             object_id="@buttonstyles_horizontal_tab",
             starting_height=2,
@@ -755,7 +758,7 @@ class ChooseAdoptiveParentScreen(Screens):
         if self.the_cat.adoptive_parents:
             self.tab_buttons["adoptive"] = UISurfaceImageButton(
                 button_rect,
-                "screens.choose_adoptive_parent.adoptive",
+                "Adoptive Parents",
                 get_button_dict(ButtonStyles.HORIZONTAL_TAB, (153, 39)),
                 object_id="@buttonstyles_horizontal_tab",
                 starting_height=2,
@@ -771,18 +774,16 @@ class ChooseAdoptiveParentScreen(Screens):
         if self.the_cat.parent1 or self.the_cat.parent2:
             self.tab_buttons["birth"] = UISurfaceImageButton(
                 button_rect,
-                "screens.choose_adoptive_parent.birth",
+                "Birth Parents",
                 get_button_dict(ButtonStyles.HORIZONTAL_TAB, (153, 39)),
                 object_id="@buttonstyles_horizontal_tab",
                 starting_height=2,
                 anchors={
                     "bottom": "bottom",
                     "bottom_target": self.list_frame,
-                    "left_target": (
-                        self.tab_buttons["adoptive"]
-                        if adoptive_parents_shown
-                        else self.tab_buttons["potential"]
-                    ),
+                    "left_target": self.tab_buttons["adoptive"]
+                    if adoptive_parents_shown
+                    else self.tab_buttons["potential"],
                 },
             )
             birth_parents_shown = True
@@ -831,7 +832,7 @@ class ChooseAdoptiveParentScreen(Screens):
         if not self.selected_cat:
             self.toggle_adoptive_parent = UISurfaceImageButton(
                 ui_scale(pygame.Rect((303, 310), (192, 30))),
-                "screens.choose_adoptive_parent.set_parent",
+                "Set adoptive parent",
                 get_button_dict(ButtonStyles.SQUOVAL, (192, 30)),
                 object_id="@buttonstyles_squoval",
             )
@@ -839,14 +840,14 @@ class ChooseAdoptiveParentScreen(Screens):
         elif self.selected_cat.ID in self.the_cat.adoptive_parents:
             self.toggle_adoptive_parent = UISurfaceImageButton(
                 ui_scale(pygame.Rect((303, 310), (192, 30))),
-                "screens.choose_adoptive_parent.unset_parent",
+                "Unset adoptive parent",
                 get_button_dict(ButtonStyles.SQUOVAL, (192, 30)),
                 object_id="@buttonstyles_squoval",
             )
         else:
             self.toggle_adoptive_parent = UISurfaceImageButton(
                 ui_scale(pygame.Rect((303, 310), (192, 30))),
-                "screens.choose_adoptive_parent.set_parent",
+                "Set adoptive parent",
                 get_button_dict(ButtonStyles.SQUOVAL, (192, 30)),
                 object_id="@buttonstyles_squoval",
             )
@@ -884,13 +885,14 @@ class ChooseAdoptiveParentScreen(Screens):
             object_id="#text_box_34_horizcenter",
         )
 
-        info = "\n".join(
-            [
-                i18n.t("general.moons_age", count=self.selected_cat.moons),
-                i18n.t(f"general.{self.selected_cat.status.rank.lower()}", count=1),
-                self.selected_cat.genderalign,
-                i18n.t(f"cat.personality.{self.selected_cat.personality.trait}"),
-            ]
+        info = (
+            str(self.selected_cat.moons)
+            + " moons\n"
+            + self.selected_cat.status
+            + "\n"
+            + self.selected_cat.genderalign
+            + "\n"
+            + self.selected_cat.personality.trait
         )
         self.selected_cat_elements["info"] = pygame_gui.elements.UITextBox(
             info,
@@ -909,13 +911,14 @@ class ChooseAdoptiveParentScreen(Screens):
         valid_parents = [
             inter_cat
             for inter_cat in Cat.all_cats_list
-            if inter_cat.status.group_ID
-            == self.the_cat.status.group_ID  # Adoptive parents must be part of the same group
+            if not (
+                inter_cat.dead or inter_cat.outside or inter_cat.exiled
+            )  # Adoptive parents cant be dead or outside
             and inter_cat.ID != self.the_cat.ID  # Can't be your own adoptive parent
             and inter_cat.moons - self.the_cat.moons
             >= 14  # Adoptive parent must be at least 14 moons older. -> own child can't adopt you
             and inter_cat.ID
-            not in self.the_cat.mate  # Can't set your mate your adoptive parent.
+            not in self.the_cat.mates  # Can't set your mate your adoptive parent.
             and inter_cat.ID
             not in self.the_cat.get_parents()  # Adoptive parents can't already be their parent
             and not inter_cat.no_kits
@@ -940,8 +943,8 @@ class ChooseAdoptiveParentScreen(Screens):
         It checks the potential parent is a relative of your mate.
         Return if the cat is a possible adoptive parent.
         """
-        if len(self.the_cat.mate) > 0:
-            for mate_id in self.the_cat.mate:
+        if len(self.the_cat.mates) > 0:
+            for mate_id in self.the_cat.mates:
                 mate = Cat.fetch_cat(mate_id)
                 mate_relatives = mate.get_relatives()
                 if possible_parent.ID in mate_relatives:
@@ -956,7 +959,10 @@ class ChooseAdoptiveParentScreen(Screens):
             ob = Cat.fetch_cat(x)
             if not isinstance(ob, Cat):
                 continue
-            if other_cat.ID in ob.mate:
+            if other_cat.ID in ob.mates:
                 return True
 
         return False
+
+    def chunks(self, L, n):
+        return [L[x : x + n] for x in range(0, len(L), n)]

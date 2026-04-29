@@ -7,24 +7,21 @@ import pygame
 
 import scripts.game_structure.screen_settings
 from scripts.ui.generate_box import BoxData, get_box
-from scripts.ui.scale import ui_scale_dimensions
+from scripts.utility import ui_scale_dimensions
 
 
 class ButtonStyles(Enum):
     MAINMENU = "mainmenu"
-    CLAN_HEADER = "clan_header"
     SQUOVAL = "squoval"
     MENU_LEFT = "menu_left"
     MENU_MIDDLE = "menu_middle"
     MENU_RIGHT = "menu_right"
-    FILTER_DROPDOWN = "filter_dropdown"
     PROFILE_LEFT = "profile_left"
     PROFILE_MIDDLE = "profile_middle"
     PROFILE_RIGHT = "profile_right"
     ROUNDED_RECT = "rounded_rect"
     DROPDOWN = "dropdown"
     HORIZONTAL_TAB = "horizontal_tab"
-    HORIZONTAL_TAB_MIRRORED = "horizontal_tab_mirrored"
     VERTICAL_TAB = "vertical_tab"
     LADDER_TOP = "ladder_top"
     LADDER_MIDDLE = "ladder_middle"
@@ -49,22 +46,6 @@ buttonstyles = {
         ).convert_alpha(),
         "disabled": pygame.image.load(
             "resources/images/generated_buttons/mainmenu_disabled.png"
-        ).convert_alpha(),
-        "ninetile": False,
-        "scale_only": False,
-    },
-    "clan_header": {
-        "normal": pygame.image.load(
-            "resources/images/generated_buttons/clan_header_normal.png"
-        ).convert_alpha(),
-        "hovered": pygame.image.load(
-            "resources/images/generated_buttons/clan_header_hovered.png"
-        ).convert_alpha(),
-        "selected": pygame.image.load(
-            "resources/images/generated_buttons/clan_header_hovered.png"
-        ).convert_alpha(),
-        "disabled": pygame.image.load(
-            "resources/images/generated_buttons/clan_header_hovered.png"
         ).convert_alpha(),
         "ninetile": False,
         "scale_only": False,
@@ -230,39 +211,6 @@ buttonstyles = {
         "scale_only": False,
         "tab_movement": {"hovered": False, "disabled": True, "amount": (0, -4)},
     },
-    "horizontal_tab_mirrored": {
-        "normal": pygame.transform.flip(
-            pygame.image.load(
-                "resources/images/generated_buttons/horizontal_tab_normal.png"
-            ).convert_alpha(),
-            False,
-            True,
-        ),
-        "hovered": pygame.transform.flip(
-            pygame.image.load(
-                "resources/images/generated_buttons/horizontal_tab_hovered.png"
-            ).convert_alpha(),
-            False,
-            True,
-        ),
-        "selected": pygame.transform.flip(
-            pygame.image.load(
-                "resources/images/generated_buttons/horizontal_tab_normal.png"
-            ).convert_alpha(),
-            False,
-            True,
-        ),
-        "disabled": pygame.transform.flip(
-            pygame.image.load(
-                "resources/images/generated_buttons/horizontal_tab_disabled.png"
-            ).convert_alpha(),
-            False,
-            True,
-        ),
-        "ninetile": False,
-        "scale_only": False,
-        "tab_movement": {"hovered": False, "disabled": True, "amount": (0, 4)},
-    },
     "vertical_tab": {
         "normal": pygame.image.load(
             "resources/images/generated_buttons/vertical_tab_normal.png"
@@ -347,7 +295,7 @@ buttonstyles = {
     "icon_tab_top": {
         "ninetile": True,
         "scale_only": False,
-        "tab_movement": {"hovered": True, "disabled": True, "amount": (0, 4)},
+        "tab_movement": {"hovered": True, "disabled": True, "amount": (0, -4)},
     },
     "icon_tab_left": {
         "ninetile": True,
@@ -357,7 +305,7 @@ buttonstyles = {
     "icon_tab_bottom": {
         "ninetile": True,
         "scale_only": False,
-        "tab_movement": {"hovered": True, "disabled": True, "amount": (0, -4)},
+        "tab_movement": {"hovered": True, "disabled": True, "amount": (0, 4)},
     },
     "icon_tab_right": {
         "ninetile": True,
@@ -467,26 +415,23 @@ def generate_button(base: pygame.Surface, scaled_dimensions: Tuple[int, int]):
 
 
 def get_button_dict(
-    style: ButtonStyles, unscaled_dimensions: Tuple[int, int], *, static=False
+    style: ButtonStyles,
+    unscaled_dimensions: Tuple[int, int],
 ) -> Dict[str, pygame.Surface]:
     """
     Return a dictionary of surfaces suitable for passing into a UISurfaceImageButton.
     :param style: The ButtonStyles style required for the button
     :param unscaled_dimensions: The UNSCALED dimensions of the button
-    :param static: Whether to return only the normal surface, default False
     :return: A dictionary of surfaces
     """
     return _get_button_dict(
-        style,
-        unscaled_dimensions,
-        scripts.game_structure.screen_settings.screen_scale,
-        static,
+        style, unscaled_dimensions, scripts.game_structure.screen_settings.screen_scale
     )
 
 
 @lru_cache(maxsize=None)
 def _get_button_dict(
-    style: ButtonStyles, unscaled_dimensions: Tuple[int, int], scale, static
+    style: ButtonStyles, unscaled_dimensions: Tuple[int, int], scale
 ) -> Dict[str, pygame.Surface]:
     """
     This wrapper exists so that we can cache the values to make toggling quicker.
@@ -499,13 +444,6 @@ def _get_button_dict(
     dontdeletethatpls = scale
 
     if buttonstyles[style.value]["scale_only"]:
-        if static:
-            return {
-                "normal": pygame.transform.scale(
-                    buttonstyles[style.value]["normal"],
-                    ui_scale_dimensions(unscaled_dimensions),
-                )
-            }
         return {
             "normal": pygame.transform.scale(
                 buttonstyles[style.value]["normal"],
@@ -526,17 +464,6 @@ def _get_button_dict(
         }
 
     if buttonstyles[style.value]["ninetile"]:
-        if static:
-            return {
-                "normal": get_box(
-                    BoxData(
-                        style.value + "_normal",
-                        buttonstyles[style.value]["normal"],
-                        (3, 3),
-                    ),
-                    unscaled_dimensions,
-                )
-            }
         return {
             "normal": get_box(
                 BoxData(
@@ -568,14 +495,6 @@ def _get_button_dict(
                 ),
                 unscaled_dimensions,
             ),
-        }
-
-    if static:
-        return {
-            "normal": generate_button(
-                buttonstyles[style.value]["normal"],
-                ui_scale_dimensions(unscaled_dimensions),
-            )
         }
 
     return {

@@ -7,7 +7,7 @@ from typing import Tuple, Dict, Union, Optional
 import pygame
 
 import scripts.game_structure.screen_settings
-from scripts.ui.scale import ui_scale_dimensions, ui_scale_value
+from scripts.utility import ui_scale_value, ui_scale_dimensions
 
 
 @dataclass(unsafe_hash=True)
@@ -20,20 +20,12 @@ class BoxData:
 class BoxStyles(Enum):
     FRAME = "frame"
     ROUNDED_BOX = "rounded_box"
-    SELECTION_BOX = "selection_box"
 
 
 boxstyles = {
     "frame": BoxData(
         "frame",
         pygame.image.load("resources/images/generated_boxes/frame.png").convert_alpha(),
-        (3, 3),
-    ),
-    "selection_box": BoxData(
-        "selection_box",
-        pygame.image.load(
-            "resources/images/generated_boxes/selection_box.png"
-        ).convert_alpha(),
         (3, 3),
     ),
     "rounded_box": BoxData(
@@ -220,7 +212,7 @@ def _get_box(
     sides: Union[bool, Tuple[bool, bool, bool, bool]] = True,
     use_extra_if_available=True,
     *,
-    scale,
+    scale
 ) -> pygame.Surface:
     """
     A wrapper for get_box that lets it be typehinted & still cache properly
