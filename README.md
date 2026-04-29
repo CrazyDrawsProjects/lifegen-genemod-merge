@@ -1,9 +1,9 @@
 # LifeGen - A ClanGen Mod
 
-### [Discord Server](https://discord.gg/lifegen) || [Official website](https://mods.clangen.io/LifeGen/download) || [ClanGen Itch.io Page](https://sablesteel.itch.io/clan-gen-fan-edit) 
+### [LifeGen Discord Server](https://discord.gg/lifegen) || [Genemod Discord Server](https://discord.gg/FVXfCvJG29) || [LifeGene Thread](tba) 
 
 ## Description
-A ClanGen mod where you control your own cat! Choose your path and live out your life as a warrior.
+A ClanGen mod where you control your own cat, now with 100% more cat genetics! Choose your path and live out your life as a warrior.
 
 ## Credits
 Original creator: just-some-cat.tumblr.com
@@ -12,21 +12,13 @@ Fan-edit creator: SableSteel, and many others
 
 [LifeGen credits](https://docs.google.com/document/d/1XCm5Eo-y5VA6W9quDMbF3VNyKL7S8_9Tl4c2buuiA8g/edit?usp=sharing)
 
-## Downloads
-### Stable
-Stable versions can be downloaded directly from the [official LifeGen mod website](https://mods.clangen.io/LifeGen/download)
-
-### Development
-**Note**: Development versions are automatic snapshots of current development efforts. They are _not_ stable, can crash and even corrupt your save files.
-Additionally, we do not provide tech support for development versions.
-
-Download at your own risk here: [LifeGen development download](https://mods.clangen.io/LifeGen/download-development)
+[Genemod](http://github.com/Chinch-Bug/clangen-genemodhttp://github.com/Chinch-Bug/clangen-genemod/)
 
 ## Running from source
-ClanGen uses poetry to manage virtual environments. Therefore it is required to install the dependencies and run the game from source without manual tweaking.
+LifeGen uses poetry to manage virtual environments. Therefore it is required to install the dependencies and run the game from source without manual tweaking.
 
 ### Installing python
-ClanGen currently supports python versions >=3.8 and <3.13.
+LifeGene currently supports python versions >=3.8 and <3.13.
 
 Download from the official python website here: https://www.python.org/downloads
 
@@ -90,4 +82,4 @@ Finally, open the `main.py` file and click the play button in the top right corn
 
 
 ## Bug Reporting
-Please report any bugs on the LifeGen discord server.
+Please report any bugs in the LifeGene thread.
