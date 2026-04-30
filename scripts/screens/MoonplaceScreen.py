@@ -297,13 +297,13 @@ class MoonplaceScreen(Screens):
     def get_med_type(self, you):
         med_type = "you_single_med"
 
-        if you.status == "medicine cat apprentice" and not you.mentor:
+        if you.status == "healer apprentice" and not you.mentor:
             med_type = "you_app_mentorless"
-        elif you.status == "medicine cat apprentice":
+        elif you.status == "healer apprentice":
             med_type = "you_app_mentor"
-        elif you.status == "medicine cat" and len(get_alive_status_cats(Cat, ["medicine cat", "medicine cat apprentice"], working=False)) == 2:
+        elif you.status == "healer" and len(get_alive_status_cats(Cat, ["healer", "healer apprentice"], working=False)) == 2:
             med_type = "two_meds"
-        elif you.status == "medicine cat" and len(get_alive_status_cats(Cat, ["medicine cat", "medicine cat apprentice"], working=False)) > 2:
+        elif you.status == "healer" and len(get_alive_status_cats(Cat, ["healer", "healer apprentice"], working=False)) > 2:
             med_type = "multi_meds"
 
         return med_type
@@ -542,7 +542,7 @@ class MoonplaceScreen(Screens):
                     alive_app = choice(alive_apps)
                 text = text.replace("r_w", str(alive_app.name))
             if "r_m" in text:
-                alive_apps = get_alive_status_cats(Cat, ["medicine cat", "medicine cat apprentice"])
+                alive_apps = get_alive_status_cats(Cat, ["healer", "healer apprentice"])
                 if len(alive_apps) <= 1:
                     return ""
                 alive_app = choice(alive_apps)
@@ -819,7 +819,7 @@ class MoonplaceScreen(Screens):
         return text
     
     def get_other_med_greeting(self, possible_texts):
-        """Handles other medicine cat greetings at the Moonplace."""
+        """Handles other healer greetings at the Moonplace."""
         
         def format_greeting(template, clan_name, med_names):
             formatted_names = ", ".join(med_names[:-1]) + f", and {med_names[-1]}" if len(med_names) > 2 else \
@@ -854,10 +854,10 @@ class MoonplaceScreen(Screens):
         return []
 
     def handle_other_med(self):
-        """Updates other Clans' medicine cats for the Moonplace."""
+        """Updates other Clans' healers for the Moonplace."""
 
         def generate_meds_for_clan() -> list:
-            """Generates 1-3 medicine cats (mostly full names, some apprentices)."""
+            """Generates 1-3 healers (mostly full names, some apprentices)."""
             return [
                 Name() if randint(1, 4) != 1 else Name(suffix="paw")
                 for _ in range(randint(1, 3))
@@ -898,7 +898,7 @@ class MoonplaceScreen(Screens):
             for clan_meds in game.switches["other_med"]:
                 promote_apprentices(clan_meds)
 
-            # Randomly remove some medicine cats (simulate time passing)
+            # Randomly remove some healers (simulate time passing)
             game.switches["other_med"] = randomly_remove_string(game.switches["other_med"])
 
             # Replenish missing cats

@@ -467,11 +467,11 @@ class TestNameRepr(unittest.TestCase):
             [["newborn"], 0, "kit"],
             [["kitten"], 1, "kit"],
             [
-                ["apprentice", "medicine cat apprentice", "mediator apprentice"],
+                ["apprentice", "healer apprentice", "mediator apprentice"],
                 6,
                 "paw",
             ],
-            [["warrior", "medicine cat", "mediator", "elder", "deputy"], 14, "test"],
+            [["warrior", "healer", "mediator", "elder", "deputy"], 14, "test"],
             [["leader"], 14, "star"],
         ]
         for testset, moons, suffix in statuses:
@@ -489,11 +489,11 @@ class TestNameRepr(unittest.TestCase):
             [["newborn"], 0, "test"],
             [["kitten"], 1, "test"],
             [
-                ["apprentice", "medicine cat apprentice", "mediator apprentice"],
+                ["apprentice", "healer apprentice", "mediator apprentice"],
                 6,
                 "test",
             ],
-            [["warrior", "medicine cat", "mediator", "elder", "deputy"], 14, "test"],
+            [["warrior", "healer", "mediator", "elder", "deputy"], 14, "test"],
             [["leader"], 14, "test"],
         ]
         for testset, moons, suffix in statuses:

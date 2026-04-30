@@ -43,7 +43,7 @@
         ],
         "m_c": {
             "min_max_faith": [2, 9],
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "affected": true
         }
     },
@@ -322,7 +322,7 @@
         ],
         "m_c": {
             "min_max_faith": [-9,-4],
-            "status": ["warrior", "medicine cat", "mediator", "queen"],
+            "status": ["warrior", "healer", "mediator", "queen"],
             "age": ["young adult", "adult", "senior adult"],
             "relationship_status": [
                 "dislike_30",
@@ -331,7 +331,7 @@
         },
         "r_c": {
             "min_max_faith": [1,4],
-            "status": ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"],
+            "status": ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"],
             "age": ["young adult", "adult", "senior adult"],
             "affected": true
         },
@@ -362,13 +362,13 @@
         ],
         "m_c": {
             "min_max_faith": [-9,-1],
-            "status": ["warrior", "medicine cat", "mediator", "queen"],
+            "status": ["warrior", "healer", "mediator", "queen"],
             "age": ["adolescent"],
             "affected": true
         },
         "r_c": {
             "min_max_faith": [1,9],
-            "status": ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"],
+            "status": ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"],
             "age": ["adolescent"]
         }
     },
@@ -381,14 +381,14 @@
         ],
         "m_c": {
             "min_max_faith": [1,9],
-            "status": ["warrior", "medicine cat", "mediator", "queen"],
+            "status": ["warrior", "healer", "mediator", "queen"],
             "age": ["adolescent"],
             "affected": true,
             "cluster": ["cool"]
         },
         "r_c": {
             "min_max_faith": [-9,9],
-            "status": ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"],
+            "status": ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"],
             "age": ["adolescent"],
             "affected": true
         }
@@ -402,14 +402,14 @@
         ],
         "m_c": {
             "min_max_faith": [1,9],
-            "status": ["warrior", "medicine cat", "mediator", "queen"],
+            "status": ["warrior", "healer", "mediator", "queen"],
             "age": ["adolescent"],
             "affected": true,
             "cluster": ["stable","sweet","upstanding","neurotic"]
         },
         "r_c": {
             "min_max_faith": [-9,9],
-            "status": ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"],
+            "status": ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"],
             "age": ["adolescent"],
             "affected": true
         }
@@ -464,7 +464,7 @@
         ],
         "m_c": {
             "affected": true,
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "min_max_faith": [1,9]
         }
     },
@@ -479,7 +479,7 @@
         ],
         "m_c": {
             "affected": true,
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "min_max_faith": [1,9]
         }
     },
@@ -497,7 +497,7 @@
         ],
         "m_c": {
             "affected": true,
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "min_max_faith": [-9,-1]
         },
         "supplies": [
@@ -763,7 +763,7 @@
         },
         "r_c": {
             "min_max_faith": [-9,9],
-            "status": ["warrior", "medicine cat", "elder", "mediator", "queen"],
+            "status": ["warrior", "healer", "elder", "mediator", "queen"],
             "affected": false
         }
     },
@@ -794,7 +794,7 @@
         ],
         "m_c": {
             "affected": true,
-            "status": ["medicine cat apprentice"],
+            "status": ["healer apprentice"],
             "min_max_faith": [0,9]
         }
     },
@@ -810,12 +810,12 @@
         ],
         "m_c": {
             "affected": true,
-            "status": ["medicine cat apprentice"],
+            "status": ["healer apprentice"],
             "min_max_faith": [1,9]
         },
         "r_c": {
             "min_max_faith": [1,9],
-            "status": ["medicine cat"],
+            "status": ["healer"],
             "affected": true
         }
     },
@@ -924,7 +924,7 @@
         },
         "r_c": {
             "min_max_faith": [1,9],
-            "status": ["medicine cat"],
+            "status": ["healer"],
             "affected": true
         }
     },
@@ -992,7 +992,7 @@
         "m_c": {
             "min_max_faith": [-2, 4],
             "affected": true,
-            "status": ["medicine cat apprentice", "medicine cat"]
+            "status": ["healer apprentice", "healer"]
         }
     },
     {
@@ -1232,7 +1232,7 @@
         "faith_effect": 0.5,
         "weight": 20,
         "interactions": [
-            "When m_c asks if medicine cats can bring cats back from the dead, r_c purrs in amusement, saying only StarClan can do that."
+            "When m_c asks if healers can bring cats back from the dead, r_c purrs in amusement, saying only StarClan can do that."
         ],
         "m_c": {
             "min_max_faith": [-9, 9],
@@ -1242,7 +1242,7 @@
         "r_c": {
             "min_max_faith": [2, 9],
             "affected": false,
-            "status": ["medicine cat apprentice", "medicine cat"]
+            "status": ["healer apprentice", "healer"]
         }
     },
     {
@@ -1802,12 +1802,12 @@
         "m_c": {
             "min_max_faith": [-9,9],
             "affected": true,
-            "status": ["medicine cat", "medicine cat apprentice"]
+            "status": ["healer", "healer apprentice"]
         },
         "r_c": {
             "min_max_faith": [-9,9],
             "affected": false,
-            "status": ["medicine cat"]
+            "status": ["healer"]
         }
     },
 
@@ -1873,7 +1873,7 @@
         "r_c": {
             "min_max_faith": [1,9],
             "affected": false,
-            "status": ["medicine cat", "medicine cat apprentice"]
+            "status": ["healer", "healer apprentice"]
         }
     },
 

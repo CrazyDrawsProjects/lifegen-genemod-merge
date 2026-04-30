@@ -129,7 +129,7 @@ class Clan:
 
         self.med_cat_number = len(
             self.med_cat_list
-        )  # Must do this after the medicine cat is added to the list.
+        )  # Must do this after the healer is added to the list.
         self.herbs = {}
         self.age = 0
         self.current_season = "Newleaf"
@@ -221,8 +221,8 @@ class Clan:
         if self.medicine_cat is not None:
             self.clan_cats.append(self.medicine_cat.ID)
             self.med_cat_list.append(self.medicine_cat.ID)
-            if self.medicine_cat.status != "medicine cat":
-                Cat.all_cats[self.medicine_cat.ID].status_change("medicine cat")
+            if self.medicine_cat.status != "healer":
+                Cat.all_cats[self.medicine_cat.ID].status_change("healer")
 
     def create_clan(self):
         """
@@ -230,8 +230,8 @@ class Clan:
         created in the 'clan created' screen, not every time
         the program starts
         """
-        self.instructor = Cat(status=choice(["apprentice", "mediator apprentice", "medicine cat apprentice", "warrior",
-                                            "medicine cat", "leader", "mediator", "queen", "queen's apprentice", "deputy", "elder"]),
+        self.instructor = Cat(status=choice(["apprentice", "mediator apprentice", "healer apprentice", "warrior",
+                                            "healer", "leader", "mediator", "queen", "queen's apprentice", "deputy", "elder"]),
                             )
         self.instructor.dead = True
         self.instructor.dead_for = randint(20, 200)
@@ -243,8 +243,8 @@ class Clan:
         self.add_to_starclan(self.instructor)
         self.all_clans = []
         
-        self.demon = Cat(status=choice(["apprentice", "mediator apprentice", "medicine cat apprentice", "warrior",
-                                            "medicine cat", "leader", "mediator", "queen", "queen's apprentice", "deputy", "elder"]),
+        self.demon = Cat(status=choice(["apprentice", "mediator apprentice", "healer apprentice", "warrior",
+                                            "healer", "leader", "mediator", "queen", "queen's apprentice", "deputy", "elder"]),
                             )
         self.demon.df = True
         self.demon.dead = True
@@ -286,8 +286,8 @@ class Clan:
                 Cat.all_cats.get(cat_id).status_change('apprentice')
             elif Cat.all_cats.get(cat_id).status == "queen's apprentice":
                 Cat.all_cats.get(cat_id).status_change("queen's apprentice")
-            elif Cat.all_cats.get(cat_id).status == 'medicine cat apprentice':
-                Cat.all_cats.get(cat_id).status_change('medicine cat apprentice')
+            elif Cat.all_cats.get(cat_id).status == 'healer apprentice':
+                Cat.all_cats.get(cat_id).status_change('healer apprentice')
             Cat.all_cats.get(cat_id).thoughts()
 
         game.save_cats()
@@ -387,7 +387,7 @@ class Clan:
             return None
         
         clan_kits = get_alive_status_cats(Cat, ["newborn", "kitten"])
-        clan_apps = get_alive_status_cats(Cat, ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"])
+        clan_apps = get_alive_status_cats(Cat, ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"])
 
         if not clan_kits and not clan_apps:
             return
@@ -568,7 +568,7 @@ class Clan:
             return None
         
         clan_kits = get_alive_status_cats(Cat, ["newborn", "kitten"])
-        clan_apps = get_alive_status_cats(Cat, ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"])
+        clan_apps = get_alive_status_cats(Cat, ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"])
 
         if not clan_kits and not clan_apps:
             return
@@ -767,8 +767,8 @@ class Clan:
         TODO: DOCS
         """
         if medicine_cat:
-            if medicine_cat.status != "medicine cat":
-                Cat.all_cats[medicine_cat.ID].status_change("medicine cat")
+            if medicine_cat.status != "healer":
+                Cat.all_cats[medicine_cat.ID].status_change("healer")
             if medicine_cat.ID not in self.med_cat_list:
                 self.med_cat_list.append(medicine_cat.ID)
             medicine_cat = self.med_cat_list[0]
@@ -888,7 +888,7 @@ class Clan:
             for other_clan in game.switches["other_med"]:
                 cats = []
                 for c in other_clan:
-                    cats.append(c.prefix + "," + c.suffix + ",medicine cat")
+                    cats.append(c.prefix + "," + c.suffix + ",healer")
                 other_med.append(cats)
             clan_data["other_med"] = other_med
 

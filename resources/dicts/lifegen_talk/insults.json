@@ -2367,7 +2367,7 @@
     "unlawful_tomedcatapp_negGuy1": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -2388,7 +2388,7 @@
     "unlawful_tomedcat_negGuy1": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -4036,8 +4036,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "age": [
                 "not_kitten"
@@ -4139,8 +4139,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "tags": [
@@ -4164,8 +4164,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "relationship": [

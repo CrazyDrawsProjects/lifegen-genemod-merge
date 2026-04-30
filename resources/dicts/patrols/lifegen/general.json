@@ -933,7 +933,7 @@
         "max_cats": 1,
         "min_max_status": {},
         "weight": 20,
-        "intro_text": "Dusk brings a surprise: you spot r_w making {PRONOUN/r_w/poss} way to the Moonplace. You're unsure if you're even allowed to communicate with r_w - it's rare for StarClan to speak with anycat other than a leader or medicine cat, but surely ordinary warriors sometimes need guidance from their ancestors, too.",
+        "intro_text": "Dusk brings a surprise: you spot r_w making {PRONOUN/r_w/poss} way to the Moonplace. You're unsure if you're even allowed to communicate with r_w - it's rare for StarClan to speak with anycat other than a leader or healer, but surely ordinary warriors sometimes need guidance from their ancestors, too.",
         "decline_text": "Unsure what to do, you call over your fellow StarClan residents to let them know. Some other cat can decide how to respond to r_w.",
         "chance_of_success": 50,
         "success_outcomes": [
@@ -949,7 +949,7 @@
                     ]
             },
             {
-                "text": "You have a feeling that r_w truly needs guidance from StarClan, so you wait for {PRONOUN/r_w/object} to fall asleep at the Moonplace - and you're glad you did. When you greet r_w in the starry landscape, {PRONOUN/r_w/subject} {VERB/r_w/confess/confesses} that {PRONOUN/r_w/subject}{VERB/r_w/'ve/'s} been having strange visions and senses that no other cat seems to have. While you tell {PRONOUN/r_w/object} that you aren't able to explain what these mean, you <i>are</i> able to tell {PRONOUN/r_w/object} that they're messages from StarClan, much like the ones medicine cats and leaders can receive. By the time r_w has to wake up, {PRONOUN/r_w/subject} {VERB/r_w/have/has} a new resolve to speak with the medicine cat, believing {PRONOUN/r_w/poss} latest vision may have been a sign of something the Clan needs to be prepared for.",
+                "text": "You have a feeling that r_w truly needs guidance from StarClan, so you wait for {PRONOUN/r_w/object} to fall asleep at the Moonplace - and you're glad you did. When you greet r_w in the starry landscape, {PRONOUN/r_w/subject} {VERB/r_w/confess/confesses} that {PRONOUN/r_w/subject}{VERB/r_w/'ve/'s} been having strange visions and senses that no other cat seems to have. While you tell {PRONOUN/r_w/object} that you aren't able to explain what these mean, you <i>are</i> able to tell {PRONOUN/r_w/object} that they're messages from StarClan, much like the ones healers and leaders can receive. By the time r_w has to wake up, {PRONOUN/r_w/subject} {VERB/r_w/have/has} a new resolve to speak with the healer, believing {PRONOUN/r_w/poss} latest vision may have been a sign of something the Clan needs to be prepared for.",
                 "exp": 0,
                 "weight": 10,
                 "stat_skill": ["CLAIRVOYANT,1","PROPHET,1","OMEN,1"],
@@ -964,7 +964,7 @@
             ],
         "fail_outcomes": [
             {
-                "text": "There's not much you can do. r_w isn't a leader or medicine cat, and you don't get to talk to just any cat who happens to visit the Moonplace. All you can do is let {PRONOUN/r_w/object} sleep and try to ignore the dismay on {PRONOUN/r_w/poss} face when {PRONOUN/r_w/subject} wake up.",
+                "text": "There's not much you can do. r_w isn't a leader or healer, and you don't get to talk to just any cat who happens to visit the Moonplace. All you can do is let {PRONOUN/r_w/object} sleep and try to ignore the dismay on {PRONOUN/r_w/poss} face when {PRONOUN/r_w/subject} wake up.",
                 "exp": 0,
                 "weight": 20
             },
@@ -1388,7 +1388,7 @@
                 "weight": 20
             },
             {
-                "text": "You catch an herb scent on the breeze and follow it until you stumble across the c_n medicine cat, r_m, in the middle of a dream! You have nothing profound to say... something tells you you aren't supposed to be here. You just give r_m a wise nod before turning and running back to camp. How in, well, <i>here</i> {VERB/r_m/are/is} {PRONOUN/r_m/subject} going to end up interpreting that?",
+                "text": "You catch an herb scent on the breeze and follow it until you stumble across the c_n healer, r_m, in the middle of a dream! You have nothing profound to say... something tells you you aren't supposed to be here. You just give r_m a wise nod before turning and running back to camp. How in, well, <i>here</i> {VERB/r_m/are/is} {PRONOUN/r_m/subject} going to end up interpreting that?",
                 "exp": 0,
                 "weight": 15
             }

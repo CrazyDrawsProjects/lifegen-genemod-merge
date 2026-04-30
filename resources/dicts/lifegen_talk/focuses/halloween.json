@@ -77,8 +77,8 @@
             "status": [
                 "queen",
                 "queen's apprentice",
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -152,8 +152,8 @@
     "halloween_J6": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "age": [
                 "not_kitten"
@@ -915,8 +915,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "age": [
                 "not_kitten"

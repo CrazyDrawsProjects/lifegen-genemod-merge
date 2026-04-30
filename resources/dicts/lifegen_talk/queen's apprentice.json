@@ -106,7 +106,7 @@
     "assertive_medapp2": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -675,7 +675,7 @@
             "status": [
                 "queen's apprentice",
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "kitten"
             ]
         },
@@ -1438,8 +1438,8 @@
     "sweet_queenapp_14": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ]
         },
         "t_c": {
@@ -2019,7 +2019,7 @@
         ],
         "intro": [
             "It feels really weird to become an apprentice, but still spend all my time in the same places I did when I was a kit.",
-            "Like, the warrior apprentices go explore the territory, and the medicine cat apprentices move to the medicine den and visit the herb patches... But I'm still in the nursery.",
+            "Like, the warrior apprentices go explore the territory, and the healer apprentices move to the medicine den and visit the herb patches... But I'm still in the nursery.",
             "Sometimes, I'm scared I just decided to be a queen's apprentice 'cause I'm scared of things changing.",
             "I... I don't think that's true, but maybe it is and I just don't realize it?"
         ]
@@ -2060,8 +2060,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -2087,7 +2087,7 @@
         "intro": [
             "Um... sorry, y_c? I don't mean to bother you, but plove-r_c has a bit of a sore throat. Could I have some honey from your stores to give them?",
             "O-of course, you could give it to them, too! I don't mean to overstep.",
-            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a medicine cat, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
+            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a healer, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
         ]
     },
     "assertive_elder2": {
@@ -2107,10 +2107,10 @@
                 "upstanding"
             ],
             "status": [
-                "medicine cat",
+                "healer",
                 "mediator",
                 "mediator apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "queen",
                 "queen's apprentice"
             ],
@@ -2248,7 +2248,7 @@
         "intro": [
             "Oh, that's y_c! {PRONOUN/y_c/subject/CAP}{VERB/y_c/'ve/'s} grown so quickly.",
             "I remember you being born, you know, even if it wasn't that long ago. It'll be amazing watching you grow to provide for the Clan. I wonder what you'll grow up to do.",
-            "A big strong warrior, a gentle medicine cat, a wise mediator... or you could become a queen like I'm learning to right now.",
+            "A big strong warrior, a gentle healer, a wise mediator... or you could become a queen like I'm learning to right now.",
             "But that doesn't matter right now. Just focus on enjoying your life. That's what I think."
         ]
     },
@@ -2404,7 +2404,7 @@
         "not_supposed_H": [
             "I know I'm not supposed to talk to you. Everycat knows that.",
             "It's just-- Uh... Well, r_k has been having really bad ear pain and r_m has been too busy to check on {PRONOUN/r_k/object}.",
-            "You always had the knack of finding out what's going on, even if you're not a medicine cat and, well, I was hoping you'd agree to help?"
+            "You always had the knack of finding out what's going on, even if you're not a healer and, well, I was hoping you'd agree to help?"
         ],
         "ignore_H": [
             "[You choose to ignore the apprentice, unwilling to strike up any conversation with {PRONOUN/t_c/object}.]",
@@ -2412,7 +2412,7 @@
         ],
         "not_supposed_H_choices": {
             "choice1": {
-                "text": "Lazy medicine cats...",
+                "text": "Lazy healers...",
                 "next_scene": "lazy_meds_H"
             },
             "choice2": {
@@ -2462,7 +2462,7 @@
     },
     "redcough_sam1": {
         "y_c": {
-            "status": ["medicine cat apprentice", "medicine cat"]
+            "status": ["healer apprentice", "healer"]
         },
         "t_c": {
             "condition": ["redcough", "blind:any:false"],

@@ -1475,8 +1475,8 @@ class TalkScreen(Screens):
 
         possible_statuses = [
             "leader", "deputy", "mediator", "queen", "warrior",
-            "medicine cat", "newborn", "kitten", "mediator apprentice",
-            "apprentice", "medicine cat apprentice", "queen's apprentice", "elder"
+            "healer", "newborn", "kitten", "mediator apprentice",
+            "apprentice", "healer apprentice", "queen's apprentice", "elder"
         ]
 
         if f"not_{cat.status}" in BLOCK["status"]:

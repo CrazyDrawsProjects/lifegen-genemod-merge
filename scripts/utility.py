@@ -227,7 +227,7 @@ def get_random_moon_cat(
         if mentor_app_modifier:
             if (
                 main_cat.status
-                in ["apprentice", "mediator apprentice", "medicine cat apprentice", "queen's apprentice"]
+                in ["apprentice", "mediator apprentice", "healer apprentice", "queen's apprentice"]
                 and main_cat.mentor
                 and not int(random() * 3)
             ):
@@ -371,7 +371,7 @@ def create_new_cat_block(
         # TODO: make this less ugly
         for index in mate_indexes:
             if index in in_event_cats:
-                if in_event_cats[index] in ["apprentice", "medicine cat apprentice", "mediator apprentice"]:
+                if in_event_cats[index] in ["apprentice", "healer apprentice", "mediator apprentice"]:
                     print("Can't give apprentices mates")
                     continue
 
@@ -416,8 +416,8 @@ def create_new_cat_block(
             continue
 
         if match.group(1) in ["newborn", "kitten", "elder", "apprentice", "warrior",
-                              "mediator apprentice", "mediator", "medicine cat apprentice",
-                              "medicine cat"]:
+                              "mediator apprentice", "mediator", "healer apprentice",
+                              "healer"]:
             status = match.group(1)
             break
 
@@ -443,9 +443,9 @@ def create_new_cat_block(
             break
 
     if status and not age:
-        if status in ["apprentice", "mediator apprentice", "medicine cat apprentice"]:
+        if status in ["apprentice", "mediator apprentice", "healer apprentice"]:
             age = randint(Cat.age_moons["adolescent"][0], Cat.age_moons["adolescent"][1])
-        elif status in ["warrior", "mediator", "medicine cat"]:
+        elif status in ["warrior", "mediator", "healer"]:
             age = randint(Cat.age_moons["young adult"][0], Cat.age_moons["senior adult"][1])
         elif status == "elder":
             age = randint(Cat.age_moons["senior"][0], Cat.age_moons["senior"][1])
@@ -470,21 +470,21 @@ def create_new_cat_block(
                 elif age < 12:
                     cat_type = choice(
                         [
-                            "apprentice", "medicine cat apprentice",
+                            "apprentice", "healer apprentice",
                             "mediator apprentice", "queen's apprentice"
                         ]
                     )
                 elif age < 120:
                     cat_type = choice(
                         [
-                            "warrior", "medicine cat", "mediator", "queen"
+                            "warrior", "healer", "mediator", "queen"
                         ]
                     )
                 else:
                     cat_type = "elder"
             else:
                 age = randint(12,100)
-                cat_type = choice(["warrior", "medicine cat", "mediator", "queen"])
+                cat_type = choice(["warrior", "healer", "mediator", "queen"])
     # -------------------------------------
 
     else:
@@ -503,9 +503,9 @@ def create_new_cat_block(
         chosen_backstory = choice(
             BACKSTORIES["backstory_categories"]["abandoned_backstories"]
         )
-    elif status == "medicine cat" and cat_type == "former Clancat":
+    elif status == "healer" and cat_type == "former Clancat":
         chosen_backstory = choice(["medicine_cat", "disgraced1"])
-    elif status == "medicine cat":
+    elif status == "healer":
         chosen_backstory = choice(["wandering_healer1", "wandering_healer2"])
     else:
         if cat_type == "former Clancat":
@@ -855,11 +855,11 @@ def create_new_cat(
             age = 0
         elif litter or kit:
             age = randint(1, 5)
-        elif status in ("apprentice", "medicine cat apprentice", "mediator apprentice"):
+        elif status in ("apprentice", "healer apprentice", "mediator apprentice"):
             age = randint(6, 11)
         elif status == "warrior":
             age = randint(23, 120)
-        elif status == "medicine cat":
+        elif status == "healer":
             age = randint(23, 140)
         elif status == "elder":
             age = randint(120, 130)
@@ -976,8 +976,8 @@ def create_new_cat(
                         if scarchance == 1:
                             scar = choice(Pelt.scars3)
                             new_cat.pelt.scars.append(scar)
-                    elif new_cat.status in ["medicine cat", "apprentice", 
-                    "elder", "medicine cat apprentice", "queen", "mediator", 
+                    elif new_cat.status in ["healer", "apprentice", 
+                    "elder", "healer apprentice", "queen", "mediator", 
                     "queen's apprentice", "mediator apprentice"]:
                         scarchance = randint(1,8)
                         if scarchance == 1:
@@ -2191,7 +2191,7 @@ def ongoing_event_text_adjust(Cat, text, clan=None, other_clan_name=None):
         if kitty:
             cat_dict["dep_name"] = (str(kitty.name), choice(kitty.pronouns))
     if "med_name" in text:
-        kitty = choice(get_alive_status_cats(Cat, ["medicine cat"], working=True))
+        kitty = choice(get_alive_status_cats(Cat, ["healer"], working=True))
         cat_dict["med_name"] = (str(kitty.name), choice(kitty.pronouns))
 
     if cat_dict:
@@ -2346,7 +2346,7 @@ def event_text_adjust(
 
     # med_name
     if "med_name" in text:
-        med = choice(get_alive_status_cats(Cat, ["medicine cat"], working=True))
+        med = choice(get_alive_status_cats(Cat, ["healer"], working=True))
         replace_dict["med_name"] = (str(med.name), choice(med.pronouns))
 
     # assign all names and pronouns
@@ -3348,7 +3348,7 @@ def lifegen_abbrevs(Cat, text, you, cat, chosen_cat, cat_dict):
         chosen_cat.ID == cat.ID or
         chosen_cat.dead or
         chosen_cat.outside or
-        chosen_cat.status not in ["medicine cat", "medicine cat apprentice"] or
+        chosen_cat.status not in ["healer", "healer apprentice"] or
         chosen_cat in current_cat_objects
     ) else True
 
@@ -3424,7 +3424,7 @@ def lifegen_abbrevs(Cat, text, you, cat, chosen_cat, cat_dict):
         chosen_cat.ID == cat.ID or
         chosen_cat.dead or
         chosen_cat.outside or
-        chosen_cat.status not in ["medicine cat", "medicine cat apprentice"] or
+        chosen_cat.status not in ["healer", "healer apprentice"] or
         chosen_cat.shunned == 0 or
         chosen_cat in current_cat_objects
     ) else True
@@ -4067,7 +4067,7 @@ def lifegen_text_adjust(Cat, text, cat, cat_dict, r_c_allowed, o_c_allowed):
                 elif abbrev_string in ["r_a", "rsh_a"]:
                     cat_choices = get_alive_status_cats(Cat, ["apprentice"])
                 elif abbrev_string in ["r_m", "rsh_m"]:
-                    cat_choices = get_alive_status_cats(Cat, ["medicine cat", "medicine cat apprentice"])
+                    cat_choices = get_alive_status_cats(Cat, ["healer", "healer apprentice"])
                 elif abbrev_string in ["r_d", "rsh_d"]:
                     cat_choices = get_alive_status_cats(Cat, ["mediator", "mediator apprentice"])
                 elif abbrev_string in ["r_q", "rsh_q"]:

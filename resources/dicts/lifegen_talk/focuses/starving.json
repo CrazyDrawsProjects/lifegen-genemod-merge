@@ -487,7 +487,7 @@
         },
         "t_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "tags": [
@@ -510,7 +510,7 @@
         },
         "t_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ]
         },
         "tags": [

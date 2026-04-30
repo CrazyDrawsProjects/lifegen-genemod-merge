@@ -966,14 +966,14 @@ class ProfileScreen(Screens):
         # if cat is a med or med app, show button for their den
         self.profile_elements["med_den"] = UISurfaceImageButton(
             ui_scale(pygame.Rect((100, 380), (151, 28))),
-            "medicine cat den",
+            "healer den",
             get_button_dict(ButtonStyles.ROUNDED_RECT, (151, 28)),
             object_id="@buttonstyles_rounded_rect",
             manager=MANAGER,
             starting_height=2,
         )
         if not (self.the_cat.dead or self.the_cat.outside) and (
-            self.the_cat.status in ["medicine cat", "medicine cat apprentice"]
+            self.the_cat.status in ["healer", "healer apprentice"]
             or self.the_cat.is_ill()
             or self.the_cat.is_injured()
         ):
@@ -1179,7 +1179,7 @@ class ProfileScreen(Screens):
                 # check for not working because the queen screen doesnt have the "this cat is unable to work" thing
                 # like the mediator screen does
                 self.profile_elements["queen"].disable()
-        if self.the_cat.status in ["medicine cat", "medicine cat apprentice"] and self.the_cat.ID == game.clan.your_cat.ID and self.the_cat.moons >= 6:
+        if self.the_cat.status in ["healer", "healer apprentice"] and self.the_cat.ID == game.clan.your_cat.ID and self.the_cat.moons >= 6:
             self.profile_elements["halfmoon"] = UIImageButton(ui_scale(pygame.Rect(
                 (383, y_pos), (34, 34))),
                 "",
@@ -2007,7 +2007,7 @@ class ProfileScreen(Screens):
         #First, just list the mentors:
         if self.the_cat.status in ['kitten', 'newborn']:
                 influence_history = 'This cat has not begun training.'
-        elif self.the_cat.status in ['apprentice', 'medicine cat apprentice', 'mediator apprentice', "queen's apprentice"]:
+        elif self.the_cat.status in ['apprentice', 'healer apprentice', 'mediator apprentice', "queen's apprentice"]:
             influence_history = 'This cat has not finished training.'
         else:
             valid_formor_mentors = [
@@ -3121,7 +3121,7 @@ class ProfileScreen(Screens):
                 self.manage_roles.disable()
             else:
                 self.manage_roles.enable()
-            if self.the_cat.status not in ['apprentice', 'medicine cat apprentice', 'mediator apprentice', "queen's apprentice"] \
+            if self.the_cat.status not in ['apprentice', 'healer apprentice', 'mediator apprentice', "queen's apprentice"] \
                                             or self.the_cat.dead or self.the_cat.outside:
                 self.change_mentor_button.disable()
             else:
@@ -3185,7 +3185,7 @@ class ProfileScreen(Screens):
                         "bottom_target": self.have_kits_button},
                 )
             
-            if self.the_cat.status in ['leader', 'deputy', 'medicine cat', 'mediator', 'queen', 'warrior'] and not self.the_cat.dead and not self.the_cat.outside:
+            if self.the_cat.status in ['leader', 'deputy', 'healer', 'mediator', 'queen', 'warrior'] and not self.the_cat.dead and not self.the_cat.outside:
                 self.request_apprentice_button.enable()
             else:
                 self.request_apprentice_button.disable()

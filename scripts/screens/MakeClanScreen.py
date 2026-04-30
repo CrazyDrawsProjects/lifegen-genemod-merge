@@ -605,7 +605,7 @@ class MakeClanScreen(Screens):
                     cat.status = "deputy"
                 elif self.med_cat is None:
                     self.med_cat = cat
-                    cat.status = "medicine cat"
+                    cat.status = "healer"
                 else:
                     self.members.append(cat)
             else:
@@ -629,15 +629,15 @@ class MakeClanScreen(Screens):
             c_size = 20
         
         special_ranks = 0
-        special_rank_str = ["medicine cat", "medicine cat apprentice", "mediator", "mediator apprentice", "queen", "queen's apprentice"]
+        special_rank_str = ["healer", "healer apprentice", "mediator", "mediator apprentice", "queen", "queen's apprentice"]
         for a in range(c_size):
             if a in e:
                 game.choose_cats[a] = Cat(status='warrior', biome=None)
             else:
                 
                 status_percentages = [
-                ("medicine cat", 1),
-                ("medicine cat apprentice", 1),
+                ("healer", 1),
+                ("healer apprentice", 1),
                 ("warrior", 38),
                 ("apprentice", 15),
                 ("kitten", 5),

@@ -170,7 +170,7 @@
                 "queen",
                 "deputy",
                 "leader",
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -290,10 +290,10 @@
     "assertive_medapp1": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat",
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer",
+                "healer apprentice",
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -314,10 +314,10 @@
     "assertiveapp_medapp3": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat",
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer",
+                "healer apprentice",
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -1169,8 +1169,8 @@
     "cool_2": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1188,7 +1188,7 @@
         "intro": [
             "y_c! Hey!",
             "I was thinking, like... we're kind of the same right?",
-            "Our roles. Medicine cat and mediator.",
+            "Our roles. healer and mediator.",
             "You guys just heal the body, and we heal the brain!",
             "Cool, right?"
         ]
@@ -1287,7 +1287,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -1312,7 +1312,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -1383,7 +1383,7 @@
     "sweet_mediapp_9": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1431,7 +1431,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -1457,7 +1457,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ]
@@ -1503,7 +1503,7 @@
     "sweet_mediapp_14": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -2323,8 +2323,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -2350,7 +2350,7 @@
         "intro": [
             "Um... sorry, y_c? I don't mean to bother you, but plove-r_c has a bit of a sore throat. Could I have some honey from your stores to give them?",
             "O-of course, you could give it to them, too! I don't mean to overstep.",
-            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a medicine cat, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
+            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a healer, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
         ]
     },
     "neurotic_fromyourkit_SQ2": {
@@ -2372,7 +2372,7 @@
             "status": [
                 "apprentice",
                 "mediator apprentice",
-                "medicine cat apprentice"
+                "healer apprentice"
             ]
         },
         "relationship": [
@@ -2402,10 +2402,10 @@
                 "upstanding"
             ],
             "status": [
-                "medicine cat",
+                "healer",
                 "mediator",
                 "mediator apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "queen",
                 "queen's apprentice"
             ],

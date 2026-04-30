@@ -603,8 +603,8 @@
     "meddy_crush": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -665,8 +665,8 @@
     "cool_tomedcat": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {

@@ -1785,7 +1785,7 @@
         "y_c": {
             "shunned": true,
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -4906,7 +4906,7 @@
         "intro": [
             "y_c! Come here!",
             "[t_c tackles you to the ground in the middle of camp.]",
-            "I'm still shivering. You have to cuddle with me-- medicine cat's orders!"
+            "I'm still shivering. You have to cuddle with me-- healer's orders!"
         ]
     },
     "condition_J7": {

@@ -536,7 +536,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -565,7 +565,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -593,7 +593,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice",
                 "queen's apprentice"
             ],
@@ -1228,8 +1228,8 @@
     "assertivewarrior_med7": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1260,8 +1260,8 @@
     "assertive_med6": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1288,8 +1288,8 @@
     "assertivewarrior_med5": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "mediator apprentice",
                 "mediator",
                 "queen's apprentice",
@@ -1317,8 +1317,8 @@
     "assertiveapp_medapp1": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ]
         },
         "t_c": {
@@ -1343,7 +1343,7 @@
     "assertive_medapp": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1360,7 +1360,7 @@
             ]
         },
         "intro": [
-            "How's it going, mini-medicine cat? Herbal life treating you well?",
+            "How's it going, mini-healer? Herbal life treating you well?",
             "Don't worry, I'm not going to run headfirst into trouble and injure myself today.",
             "As for tomorrow? Who knows!"
         ]
@@ -1507,7 +1507,7 @@
                 "warrior",
                 "mediator",
                 "queen",
-                "medicine cat"
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -1542,7 +1542,7 @@
                 "warrior",
                 "mediator",
                 "queen",
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -1598,7 +1598,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "queen's apprentice",
                 "mediator apprentice"
             ]
@@ -1648,8 +1648,8 @@
             "status": [
                 "apprentice",
                 "warrior",
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -1749,7 +1749,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice",
                 "queen's apprentice"
             ],
@@ -1781,7 +1781,7 @@
             "status": [
                 "deputy",
                 "warrior",
-                "medicine cat",
+                "healer",
                 "queen"
             ]
         },
@@ -1856,7 +1856,7 @@
             "Yaknow, y_c, I never really found you all that convincing as a warrior.",
             "Real warriors are strong! We're fearless! We never back down from a fight!",
             "But in you, I sense ... uncertainty.",
-            "Maybe you should see the medicine cat about it."
+            "Maybe you should see the healer about it."
         ]
     },
     "introspective_dep": {
@@ -2168,7 +2168,7 @@
         ],
         "intro": [
             "Hey, y_c! I just got a new scar today! Wanna come take a look?",
-            "Yeah, I ran into a little dog out at the edge of a territory. Wasn't too hard to chase off, but it gave me a little nick. Medicine cat says it's probably never going away.",
+            "Yeah, I ran into a little dog out at the edge of a territory. Wasn't too hard to chase off, but it gave me a little nick. healer says it's probably never going away.",
             "[You brush your tail over t_c's scar, and {PRONOUN/t_c/subject} {VERB/t_c/seem/seems} a little too thrilled by the gesture for it to just be friendly.]"
         ]
     },
@@ -2723,7 +2723,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -2748,7 +2748,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -2781,7 +2781,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen",
                 "leader"
@@ -2807,7 +2807,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "queen's apprentice",
                 "mediator apprentice"
             ],
@@ -2946,7 +2946,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen",
                 "elder"
@@ -3129,7 +3129,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -3155,7 +3155,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -3225,7 +3225,7 @@
     "sweet_deputy_9": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -3241,7 +3241,7 @@
         },
         "intro": [
             "Let me know if you ever need help reaching StarClan, I can ask l_n and see if they've got any advice.",
-            "Leaders and medicine cats can both reach them, and sometimes what helps your mentor might not help you.",
+            "Leaders and healers can both reach them, and sometimes what helps your mentor might not help you.",
             "Everycat learns differently, after all!"
         ]
     },
@@ -3267,7 +3267,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -3293,7 +3293,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ]
@@ -3336,7 +3336,7 @@
     "sweet_deputy_13": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -3549,7 +3549,7 @@
     "stable_shunned_you_Apprentice_MedicineCat_04": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "shunned": true
         },
@@ -3731,7 +3731,7 @@
             "min_respect_50"
         ],
         "intro": [
-            "[As you rest, half-asleep in the medicine cat den, you hear hesitant pawsteps approaching. After a moment, t_c's whisper breaks the silence.]",
+            "[As you rest, half-asleep in the healer den, you hear hesitant pawsteps approaching. After a moment, t_c's whisper breaks the silence.]",
             "Hey, y_c. I just wanted to let you know that I'm handling the Clan while you're recovering.",
             "I know you probably assumed that, but I... I guess I wanted to make sure you knew?",
             "I really hope you're better soon. You're much better at all of this than me.",
@@ -3745,7 +3745,7 @@
                 "warrior",
                 "elder",
                 "queen",
-                "medicine cat",
+                "healer",
                 "mediator"
             ]
         },
@@ -4277,7 +4277,7 @@
             "status": [
                 "warrior",
                 "mediator",
-                "medicine cat",
+                "healer",
                 "queen",
                 "elder"
             ]
@@ -4884,8 +4884,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -4911,7 +4911,7 @@
         "intro": [
             "Um... sorry, y_c? I don't mean to bother you, but plove-r_c has a bit of a sore throat. Could I have some honey from your stores to give them?",
             "O-of course, you could give it to them, too! I don't mean to overstep.",
-            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a medicine cat, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
+            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a healer, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
         ]
     },
     "neurotic_skillsleeper_SQ6": {
@@ -5242,7 +5242,7 @@
                 "warrior",
                 "deputy",
                 "leader",
-                "medicine cat"
+                "healer"
             ]
         },
         "relationship": [
@@ -5271,7 +5271,7 @@
                 "leader",
                 "deputy",
                 "warrior",
-                "medicine cat"
+                "healer"
             ],
             "age": [
                 "not_kitten"
@@ -5301,8 +5301,8 @@
                 "apprentice",
                 "deputy",
                 "leader",
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "intro": [
@@ -5495,8 +5495,8 @@
             "status": [
                 "apprentice",
                 "warrior",
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "deputy"
             ]
         },
@@ -5768,7 +5768,7 @@
             "status": [
                 "warrior",
                 "mediator",
-                "medicine cat",
+                "healer",
                 "deputy",
                 "leader"
             ]

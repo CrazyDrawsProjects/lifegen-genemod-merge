@@ -259,8 +259,8 @@
     "introspective_warrior_4": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -478,7 +478,7 @@
         "y_c": {
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -764,8 +764,8 @@
     "assertive_medapp1": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -1070,8 +1070,8 @@
     "assertive_13": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -1420,8 +1420,8 @@
     "assertivewarrior_med7": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1452,8 +1452,8 @@
     "assertive_med6": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1477,8 +1477,8 @@
     "assertivewarrior_med5": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "mediator apprentice",
                 "mediator",
                 "queen's apprentice",
@@ -1506,8 +1506,8 @@
     "assertiveapp_medapp1": {
         "y_c": {
             "status": [
-                "medicine cat apprentice",
-                "medicine cat"
+                "healer apprentice",
+                "healer"
             ]
         },
         "t_c": {
@@ -1532,7 +1532,7 @@
     "assertive_medapp": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1555,7 +1555,7 @@
             ]
         },
         "intro": [
-            "How's it going, mini-medicine cat? Herbal life treating you well?",
+            "How's it going, mini-healer? Herbal life treating you well?",
             "Don't worry, I'm not going to run headfirst into trouble and injure myself today.",
             "As for tomorrow? Who knows!"
         ]
@@ -1667,7 +1667,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -1692,7 +1692,7 @@
             "status": [
                 "apprentice",
                 "queen's apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice"
             ],
             "condition": [
@@ -1761,7 +1761,7 @@
     "sweet_warrior_9": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -1807,7 +1807,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -1833,7 +1833,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ],
@@ -1879,7 +1879,7 @@
     "sweet_warrior_14": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ],
             "condition": [
                 "blind:any:false"
@@ -2613,8 +2613,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -2935,7 +2935,7 @@
             ],
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen"
             ]
@@ -2957,8 +2957,8 @@
     "upstanding_warrior13": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -3570,7 +3570,7 @@
             ]
         },
         "intro": [
-            "Why me? I mean seriously? I'm t_c, the strong independent warrior! Not some medicine cat patient.",
+            "Why me? I mean seriously? I'm t_c, the strong independent warrior! Not some healer patient.",
             "Oh- uh, sorry r_m, no offense...",
             "Mouse-dung- I think {PRONOUN/r_m/subject}{VERB/t_c/'re/'s} offended, y_c... Can you go talk to {PRONOUN/r_m/object}? So I don't have to?"
         ]
@@ -4733,7 +4733,7 @@
             "Ouch, probably shouldn't walk- oh, y_c, I didn't see you here. What are you doing in the medicine den?",
             "[You show t_c your paw, there's a thorn buried deeply in the pad. You sniff quietly as r_q grooms your fur in an attempt to soothe your sorrows.]",
             "Oh, that looks nasty, I'm so sorry. I'm guessing r_m will have to pull that out for you. It's okay, don't worry, I'll be here.",
-            "[You breathe in deeply as the medicine cat begins to pull on the thorn, the queen beside you is offering strong words of support while t_c watches with a soft smile.]",
+            "[You breathe in deeply as the healer begins to pull on the thorn, the queen beside you is offering strong words of support while t_c watches with a soft smile.]",
             "[You shut your eyes fiercely. There's a moment of pain. Then nothing. You open your eyes and look down, the thorn is gone!]",
             "Well done, y_c! That takes some real strength! Between us, you're tougher than some warriors I know. Foster that strength and there's no limit on what you can do."
         ]
@@ -4813,7 +4813,7 @@
         "intro": [
             "Hey y_c! How is my favourite little {PRONOUN/y_c/sibling}?",
             "Guess what? Guess! C'mon, I would never trick you- don't look at me like that! Just guess!",
-            "NOPE! We got chores! Yippee! I've got to go with the medicine cats while they gather herbs and I thought, hey, perfect opportunity to put you to work!",
+            "NOPE! We got chores! Yippee! I've got to go with the healers while they gather herbs and I thought, hey, perfect opportunity to put you to work!",
             "Nah! Just playing! But seriously, you wanna get out of camp for a bit? C'mon it's my treat, I'll give you a badger ride the whole time. Let's go!"
         ]
     },
@@ -4945,7 +4945,7 @@
     "stable_warrior_To_Med_Apprentice_01": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -5060,7 +5060,7 @@
         ],
         "intro": [
             "[You're currently on patrol with r_w when r_m comes through, in {PRONOUN/r_m/poss} mouth holding bundles of herbs. {PRONOUN/r_m/subject/CAP} {VERB/r_m/look/looks} up and {VERB/r_m/see/sees} you and {VERB/r_m/run/runs} over, panic in every step. Your eyes widen in fear-]",
-            "[{PRONOUN/r_m/subject/CAP} {VERB/r_m/explain/explains} your mate is currently in the medicine den and {PRONOUN/t_c/poss} condition is concerning. You quickly mumble an apology to both the medicine cat and warrior who are left in your dust.]",
+            "[{PRONOUN/r_m/subject/CAP} {VERB/r_m/explain/explains} your mate is currently in the medicine den and {PRONOUN/t_c/poss} condition is concerning. You quickly mumble an apology to both the healer and warrior who are left in your dust.]",
             "[You bolt into the medicine den to find t_c curled in a tight ball, {PRONOUN/t_c/subject} {VERB/t_c/look/looks} up and {PRONOUN/t_c/poss} eyes soften. Despite looking ill and frail, {PRONOUN/t_c/poss} warmth always returns at the sight of you.]",
             "y_c, hello... Heh... Yeah not doing so well. I'm sorry Love, I don't mean to upset you.",
             "[You lay down next to {PRONOUN/t_c/object} and rest your head on {PRONOUN/t_c/poss} back, the two of you warm and hopeful in each other's company.]",
@@ -5101,7 +5101,7 @@
                 "pregnant"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -5116,18 +5116,18 @@
             "from_mate"
         ],
         "intro": [
-            "Look at you dear, you look so tired taking care of everycat else- no... no! Please lay down, even medicine cats need a break.",
+            "Look at you dear, you look so tired taking care of everycat else- no... no! Please lay down, even healers need a break.",
             "Especially you. You're so hardworking and dedicated in everything you do. Our kits are going to be so lucky they have you to look up to.",
             "I love you dear, and I know our kits will too. So, what can I do to help you? Without you getting up- please don't look at me like that- you'll be back on your paws soon enough.",
             "Tell you what, you teach the kits to be hardworking, strong, and independent. You teach them they can always talk to their parents and we'll love them no matter what.",
             "I'll teach them to nag you to have a break from time to time. If you won't listen to me, maybe you'll listen to them. Work isn't everything, Love.",
-            "Resting is just as important. You're a medicine cat, isn't this something you tell the warriors~?"
+            "Resting is just as important. You're a healer, isn't this something you tell the warriors~?"
         ]
     },
     "stable_mate_17": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -5145,7 +5145,7 @@
             "I'm so thankful to have a mate like you, y_c. You already know what happens, how this is going to work and... I guess, I'll be trusting you to make the decisions.",
             "[You freeze and whip around to face your mate. t_c lays in your moss bedding in the medicine den, watching you as you sort through your herb supply.]",
             "[You frown slightly, 'what do you mean by that?']",
-            "Well, you're a medicine cat. You've seen cats give birth, assisted in some cases and are there to guide the parents. I just- well... I'm so excited to be a parent but I'm worried.",
+            "Well, you're a healer. You've seen cats give birth, assisted in some cases and are there to guide the parents. I just- well... I'm so excited to be a parent but I'm worried.",
             "I'm worried that once the kits are here, I'll have no plan. I won't know what to do- I don't want to make mistakes, I don't want to do anything that could- that could hurt them...",
             "I just, I guess I want to do this right.",
             "[You lay down in front of your mate and hold {PRONOUN/t_c/poss} paws with your own. You look at {PRONOUN/t_c/object} and smile reassuringly.]",
@@ -5421,7 +5421,7 @@
             "status": [
                 "queen",
                 "mediator",
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -5738,8 +5738,8 @@
     "neurotic_warrior_SQ6": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -5795,7 +5795,7 @@
                 "deaf:any:true"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -5810,7 +5810,7 @@
             "max_dislike_10"
         ],
         "intro": [
-            "[t_c stops in the entryway of the medicine cat den, stomping twice to get your attention. In {PRONOUN/t_c/poss} mouth is a bundle of moss.]",
+            "[t_c stops in the entryway of the healer den, stomping twice to get your attention. In {PRONOUN/t_c/poss} mouth is a bundle of moss.]",
             "[You can feel a thankful trill bubble up in your throat before you carefully take the offering.]",
             "[Your confusion must have been on your face, since {PRONOUN/t_c/subject} {VERB/t_c/motion/motions} with a tap to {PRONOUN/t_c/poss} chest once, then once to {PRONOUN/t_c/poss} shoulder. Then, {PRONOUN/t_c/subject} {VERB/t_c/move/moves} the forepaw up to flex {PRONOUN/t_c/poss} claws.]",
             "[It was training for the warrior apprentices it seems!]",
@@ -5823,7 +5823,7 @@
                 "deaf:any:true"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -6469,7 +6469,7 @@
     "TinyTeddy_stable_theywarrior_youmedicinecat_01": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -6572,9 +6572,9 @@
             ],
             "status": [
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "warrior",
-                "medicine cat"
+                "healer"
             ],
             "backstory": [
                 "formerlyakittypet"
@@ -7018,8 +7018,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -7045,7 +7045,7 @@
         "intro": [
             "Um... sorry, y_c? I don't mean to bother you, but plove-r_c has a bit of a sore throat. Could I have some honey from your stores to give them?",
             "O-of course, you could give it to them, too! I don't mean to overstep.",
-            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a medicine cat, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
+            "[There's not much that can go terribly wrong with honey. Since t_c seems to know {PRONOUN/t_c/poss} way around medicine despite not being a healer, you give {PRONOUN/t_c/object} a dollop of honey on a stick and send {PRONOUN/t_c/object} on {PRONOUN/t_c/poss} way.]"
         ]
     },
     "neurotic_skillsleeper_SQ6": {
@@ -7822,7 +7822,7 @@
                 "warrior",
                 "deputy",
                 "leader",
-                "medicine cat"
+                "healer"
             ]
         },
         "relationship": [
@@ -7896,7 +7896,7 @@
                 "leader",
                 "deputy",
                 "warrior",
-                "medicine cat"
+                "healer"
             ],
             "age": [
                 "not_kitten"
@@ -7963,7 +7963,7 @@
     "from_mate_SQ1": {
         "y_c": {
             "status": [
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen",
                 "elder"
@@ -8038,8 +8038,8 @@
                 "apprentice",
                 "deputy",
                 "leader",
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "intro": [
@@ -8079,7 +8079,7 @@
                 "deaf:any:true"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -8354,7 +8354,7 @@
     "brooding_tomedapp1_AJ": {
         "y_c": {
             "status": [
-                "medicine cat apprentice"
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -8377,7 +8377,7 @@
             "max_respect_10"
         ],
         "intro": [
-            "Hmph. Looks like they're just letting any cat become a medicine cat, now.",
+            "Hmph. Looks like they're just letting any cat become a healer, now.",
             "Aren't you supposed to have some kind of special connection to StarClan?",
             "Even I could probably sit around sorting herbs all day ..."
         ]
@@ -8399,8 +8399,8 @@
             "status": [
                 "apprentice",
                 "warrior",
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "deputy"
             ]
         },
@@ -8426,8 +8426,8 @@
             "status": [
                 "apprentice",
                 "warrior",
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "deputy"
             ]
         },
@@ -8444,8 +8444,8 @@
     "both_dftrainee_SQ8": {
         "y_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice",
+                "healer",
+                "healer apprentice",
                 "df_trainee"
             ]
         },
@@ -8565,7 +8565,7 @@
             "Yaknow, y_c, I never really found you all that convincing as a warrior.",
             "Real warriors are strong! We're fearless! We never back down from a fight!",
             "But in you, I sense ... uncertainty.",
-            "Maybe you should see the medicine cat about it."
+            "Maybe you should see the healer about it."
         ]
     },
     "stable_16": {
@@ -8709,7 +8709,7 @@
         "y_c": {
             "status": [
                 "warrior",
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {
@@ -9000,7 +9000,7 @@
             "status": [
                 "warrior",
                 "mediator",
-                "medicine cat",
+                "healer",
                 "deputy",
                 "leader"
             ]
@@ -9158,7 +9158,7 @@
     },
     "quilled_H1": {
         "y_c": {
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "age": [],
             "cluster": [],
             "condition": ["blind:any:false"]
@@ -9177,7 +9177,7 @@
     },
     "heatexhaustion_H1": {
         "y_c": {
-            "status": ["medicine cat", "medicine cat apprentice"],
+            "status": ["healer", "healer apprentice"],
             "age": [],
             "cluster": [],
             "condition": ["deaf:any:false"]
@@ -9201,8 +9201,8 @@
             "condition": ["heat exhaustion", "blind:any:false"]
         },
         "intro": [
-            "I am a seasoned warrior - I do not get heat exhaustion! It's just the medicine cat's way to keep us in the dens.",
-            "[t_c doesn't even make it to the medicine cat's den entrance before {PRONOUN/t_c/subject} {VERB/t_c/begin/begins} to topple.]"
+            "I am a seasoned warrior - I do not get heat exhaustion! It's just the healer's way to keep us in the dens.",
+            "[t_c doesn't even make it to the healer's den entrance before {PRONOUN/t_c/subject} {VERB/t_c/begin/begins} to topple.]"
         ]
     },
     "upstanding_warrior_SQ1": {

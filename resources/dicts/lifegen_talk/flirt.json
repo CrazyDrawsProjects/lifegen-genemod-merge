@@ -504,8 +504,8 @@
         },
         "t_c": {
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "condition": [
                 "blind:any:false"
@@ -6516,7 +6516,7 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "relationship": [
@@ -8636,7 +8636,7 @@
                 "deaf:any:false"
             ],
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "tags": [

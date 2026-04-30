@@ -93,8 +93,8 @@ class Cat:
         "warrior",
         "mediator apprentice",
         "mediator",
-        "medicine cat apprentice",
-        "medicine cat",
+        "healer apprentice",
+        "healer",
         "deputy",
         "leader",
     ]
@@ -330,7 +330,7 @@ class Cat:
                 self.age = 'senior'
             elif status in [
                 'apprentice', 'mediator apprentice',
-                'medicine cat apprentice', "queen's apprentice"
+                'healer apprentice', "queen's apprentice"
                 ]:
                 self.age = 'adolescent'
             else:
@@ -1150,8 +1150,8 @@ class Cat:
 
     def status_change(self, new_status, resort=False):
         """Changes the status of a cat. Additional functions are needed if you want to make a cat a leader or deputy.
-        new_status = The new status of a cat. Can be 'apprentice', 'medicine cat apprentice', 'warrior'
-                    'medicine cat', 'elder'.
+        new_status = The new status of a cat. Can be 'apprentice', 'healer apprentice', 'warrior'
+                    'healer', 'elder'.
         resort = If sorting type is 'rank', and resort is True, it will resort the cat list. This should
                 only be true for non-timeskip status changes."""
         old_status = self.status
@@ -1170,21 +1170,21 @@ class Cat:
                 self.status =  "queen's apprentice"
             elif game.clan.your_cat.status == "mediator":
                 self.status = "mediator apprentice"
-            elif game.clan.your_cat.status == "medicine cat":
-                self.status = "medicine cat apprentice"
+            elif game.clan.your_cat.status == "healer":
+                self.status = "healer apprentice"
             else:
                 self.status = "apprentice"
             game.switches["request apprentice"] = False
 
         # If they have any apprentices, make sure they are still valid:
-        if old_status == "medicine cat":
+        if old_status == "healer":
             game.clan.remove_med_cat(self)
 
         # updates mentors
         if self.status == "apprentice":
             pass
 
-        elif self.status == "medicine cat apprentice":
+        elif self.status == "healer apprentice":
             pass
         
         elif self.status == 'mediator apprentice':
@@ -1203,7 +1203,7 @@ class Cat:
                 game.clan.deputy = None
                 game.clan.deputy_predecessors += 1
 
-        elif self.status == "medicine cat":
+        elif self.status == "healer":
             if game.clan is not None:
                 game.clan.new_medicine_cat(self)
 
@@ -1242,7 +1242,7 @@ class Cat:
     def rank_change_traits_skill(self, mentor):
         """Updates trait and skill upon ceremony"""
 
-        if self.status in ["warrior", "medicine cat", "mediator", "queen"]:
+        if self.status in ["warrior", "healer", "mediator", "queen"]:
             # Give a couple doses of mentor influence:
             if mentor:
                 max_influence = randint(0, 2)
@@ -1469,9 +1469,9 @@ class Cat:
             self.status_change("apprentice")
             text = f"{self.name} can no longer be trusted with cross-Clan relations and has forfeit the role of a mediator apprentice."
 
-        elif self.status == "medicine cat apprentice":
+        elif self.status == "healer apprentice":
             self.status_change("apprentice")
-            text = f"{self.name} can no longer be trusted around dangerous herbs and has forfeit the role of a medicine cat apprentice."
+            text = f"{self.name} can no longer be trusted around dangerous herbs and has forfeit the role of a healer apprentice."
 
         elif self.status == "queen":
             self.status_change("warrior")
@@ -1482,9 +1482,9 @@ class Cat:
             self.status_change("warrior")
             text = f"{self.name} can no longer be trusted with cross-Clan relations and has forfeit the role of a mediator."
         
-        elif self.status == "medicine cat":
+        elif self.status == "healer":
             self.status_change("warrior")
-            text = f"{self.name} can no longer be trusted around dangerous herbs and has forfeit the role of a medicine cat."
+            text = f"{self.name} can no longer be trusted around dangerous herbs and has forfeit the role of a healer."
         
         return text
 
@@ -1898,7 +1898,7 @@ class Cat:
         self.personality.set_kit(self.is_baby())
         # Upon age-change
 
-        if self.status in ['apprentice', 'mediator apprentice', 'medicine cat apprentice', "queen's apprentice"]:
+        if self.status in ['apprentice', 'mediator apprentice', 'healer apprentice', "queen's apprentice"]:
             self.update_mentor()
 
     def thoughts(self):
@@ -2357,7 +2357,7 @@ class Cat:
             avoided = False
             if (
                 "blood loss" in new_injury.also_got
-                and len(get_alive_status_cats(Cat, ["medicine cat"], working=True)) != 0
+                and len(get_alive_status_cats(Cat, ["healer"], working=True)) != 0
             ):
                 clan_herbs = set()
                 needed_herbs = {"horsetail", "raspberry", "marigold", "cobwebs"}
@@ -2521,7 +2521,7 @@ class Cat:
         #There are some special tasks we need to do for apprentice
         # Note that although you can unretire cats, they will be a full warrior/med_cat/mediator
 
-        if self.moons > 6 and self.status in ["apprentice", "medicine cat apprentice", "mediator apprentice", "queen's apprentice"]:
+        if self.moons > 6 and self.status in ["apprentice", "healer apprentice", "mediator apprentice", "queen's apprentice"]:
             _ment = Cat.fetch_cat(self.mentor) if self.mentor else None
             self.status_change(
                 "warrior"
@@ -2660,8 +2660,8 @@ class Cat:
             return False
         # Match jobs
         if (
-            self.status == "medicine cat apprentice"
-            and potential_mentor.status != "medicine cat"
+            self.status == "healer apprentice"
+            and potential_mentor.status != "healer"
         ):
             return False
         if self.status == "apprentice" and potential_mentor.status not in [
@@ -2728,7 +2728,7 @@ class Cat:
         # Check if cat can have a mentor
         illegible_for_mentor = self.dead or self.outside or self.exiled or self.shunned > 0 or self.dead_for > 1 or self.status not in ["apprentice",
         "mediator apprentice",
-        "medicine cat apprentice",
+        "healer apprentice",
         "queen's apprentice"]
         if illegible_for_mentor:
             self.__remove_mentor()
@@ -2757,7 +2757,7 @@ class Cat:
                         priority_mentors.append(cat)
             # First try for a cat who currently has no apprentices and is working
             if 'request apprentice' in game.switches:
-                if game.switches['request apprentice'] and self.moons == 6 and not game.clan.your_cat.dead and not game.clan.your_cat.outside and game.clan.your_cat.status in ["warrior", "medicine cat", "mediator", "queen", "deputy", "leader"]:
+                if game.switches['request apprentice'] and self.moons == 6 and not game.clan.your_cat.dead and not game.clan.your_cat.outside and game.clan.your_cat.status in ["warrior", "healer", "mediator", "queen", "deputy", "leader"]:
                     new_mentor = game.clan.your_cat
                 else:
                     if priority_mentors:  # length of list > 0

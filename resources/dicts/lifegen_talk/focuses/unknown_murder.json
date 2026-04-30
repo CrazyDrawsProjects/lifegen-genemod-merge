@@ -859,8 +859,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -891,8 +891,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ]
         },
         "t_c": {
@@ -1595,8 +1595,8 @@
                 "neurotic"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "min_max_faith": [
                 0,
@@ -1637,8 +1637,8 @@
                 "blind:any:false"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "min_max_faith": [
                 0,
@@ -2474,7 +2474,7 @@
     "aboutcluster_unkmur_H1": {
         "y_c": {
             "status": [
-                "medicine cat"
+                "healer"
             ]
         },
         "t_c": {

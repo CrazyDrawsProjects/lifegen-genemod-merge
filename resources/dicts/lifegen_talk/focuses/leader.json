@@ -399,8 +399,8 @@
                 "neurotic"
             ],
             "status": [
-                "medicine cat",
-                "medicine cat apprentice"
+                "healer",
+                "healer apprentice"
             ],
             "age": [
                 "not_kitten"
@@ -853,11 +853,11 @@
             ],
             "status": [
                 "warrior",
-                "medicine cat",
+                "healer",
                 "mediator",
                 "queen",
                 "apprentice",
-                "medicine cat apprentice",
+                "healer apprentice",
                 "mediator apprentice",
                 "queen's apprentice"
             ],
