@@ -12,7 +12,7 @@ Fan-edit creator: SableSteel, and many others
 
 [LifeGen credits](https://docs.google.com/document/d/1XCm5Eo-y5VA6W9quDMbF3VNyKL7S8_9Tl4c2buuiA8g/edit?usp=sharing)
 
-[Genemod](http://github.com/Chinch-Bug/clangen-genemodhttp://github.com/Chinch-Bug/clangen-genemod/)
+[Genemod](http://github.com/Chinch-Bug/clangen-genemod/)
 
 ## Running from source
 LifeGen uses poetry to manage virtual environments. Therefore it is required to install the dependencies and run the game from source without manual tweaking.
