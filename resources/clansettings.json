@@ -30,15 +30,34 @@
             "This may result in up to 1/3rd of your Clan dying in one moon.",
             false
         ],
+        "modded_kits": [
+            "Use modded litters",
+            "Gives larger litters, and higher kit death chances",
+            false
+        ],
+        "tnr_mode": [
+            "Cats can be spayed/neutered by Twolegs",
+            "Kittypets, loners, and Clan cats caught by Twolegs now have a chance of ending up spayed or neutered",
+            false
+        ],
+        "showheight": [
+            "Show exact cat shoulder height on profile",
+            "Adds exact shoulder height in inches to cats",
+            false
+        ],
+        "metric_toggle": [
+            "Convert inches to cm",
+            "Converts heights from inches to centimetres",
+            false,
+            [
+                "showheight",
+                true
+            ]
+        ],
         "showxp": [
             "Show exact XP and nutrition status",
             "Will turn 'experience: proficient' into 'experience: proficient (151)'; and 'nutrition: full' into 'nutrition: full (70)'.",
             false
-        ],
-        "random med cat": [
-            "Allow healers to be randomly selected on patrol",
-            "healers can be selected with the patrol buttons +1, +3,+6.",
-            true
         ],
         "fading": [
             "Allow dead cats to fade away",
@@ -70,6 +89,29 @@
             "Enable all accessories",
             "All cats will have all accessories available in their inventory",
             false
+        ],
+        "modded names": [
+            "Use altered names",
+            "Enables altered prefix & suffix generation",
+            true
+        ],
+        "new prefixes": [
+            "Use new prefixes",
+            "New prefixes will be generated from a new pelt-based list",
+            true,
+            ["modded names", true]
+        ],
+        "dynamic prefixes": [
+            "Allow changing prefixes",
+            "Cats may change prefixes during ceremonies",
+            false,
+            ["modded names", true]
+        ],
+        "new suffixes": [
+            "Use new suffixes (WIP)",
+            "Cats will gain suffixes based on skills, traits, and what they're honoured for.",
+            false,
+            ["modded names", true]
         ]
     },
     "role": {
@@ -102,6 +144,16 @@
             "Allow warriors and elders to choose to become queens",
             "Warriors and elders will have a chance to become queens upon timeskip.",
             false
+        ],
+        "random med cat": [
+            "Allow healers to be randomly selected on patrol",
+            "healers can be selected with the patrol buttons +1, +3,+6.",
+            true
+        ],
+        "patrol_lock_meds": [
+            "Healers will always default to herb gathering patrols",
+            "Different types of patrols can still be selected manually",
+            false
         ]
     },
     "relation": {
@@ -127,6 +179,28 @@
         "single parentage": [
             "Allow cats to have kittens with an unknown second parent",
             "Allow cats to have kittens with an unknown second biological parent. The cat will be listed as the only biological parent.",
+            false
+        ],
+        "surrogates": [
+            "Allow cats to get surrogates for litters",
+            "Cats that cannot normally have biological litters can choose a surrogate if applicable.",
+            true
+        ],
+        "only inclan surrogates": [
+            "Only Clanmate surrogates",
+            "If surrogates are enabled, only Clanmates can be surrogates. Note: also selecting outsider surrogates will have no effect.",
+            false,
+            ["surrogates", true]
+        ],
+        "only outside surrogates": [
+            "Only outsider surrogates",
+            "If surrogates are enabled, only outsiders can be surrogates. Note: also selecting Clanmate surrogates will take priority.",
+            false,
+            ["surrogates", true]
+        ],
+        "multisire": [
+            "Allow litters with multiple sires",
+            "Allow cats to have litters with multiple sires",
             false
         ],
         "romantic with former mentor": [
