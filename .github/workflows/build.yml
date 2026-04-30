@@ -18,28 +18,28 @@ jobs:
       matrix:
         include:
           - os: ubuntu-22.04
-            artifact_name: Lifegen_Linux64_glibc2.35+.tar.xz
+            artifact_name: Lifegene_Linux64_glibc2.35+.tar.xz
             python_version: "3.11"
             python_arch: "x64"
             itch_channel: linux64_glibc_235
             api_artifact_name: linux2.35
             
           - os: windows-latest
-            artifact_name: Lifegen_Win64.zip
+            artifact_name: Lifegene_Win64.zip
             python_version: "3.8"
             python_arch: "x64"
             itch_channel: win64
             api_artifact_name: win64
             
           - os: windows-latest
-            artifact_name: Lifegen_Win64_Windows10+.zip
+            artifact_name: Lifegene_Win64_Windows10+.zip
             python_version: "3.11"
             python_arch: "x64"
             itch_channel: win64_10
             api_artifact_name: win10+
             
           - os: macos-13
-            artifact_name: Lifegen_macOS64.dmg
+            artifact_name: Lifegene_macOS64.dmg
             python_version: "3.11"
             python_arch: "x64"
             itch_channel: osx64
